@@ -1,0 +1,14 @@
+package dev.aknb.ordersystem.message;
+
+public enum MessageType {
+
+    ERROR,
+    EMAIL_EXISTS,
+    PHONE_NUMBER_EXISTS,
+    EMAIL_VERIFICATION,
+    ONCE_PER_MINUTE,
+    VERIFICATION_TOKEN_NOT_FOUND,
+    VERIFICATION_TOKEN_EXPIRED,
+    BAD_CREDENTIALS,
+    EMPTY_CREDENTIALS
+}
