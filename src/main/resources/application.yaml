@@ -1,42 +1,8 @@
 
 
-rsa:
-  public-key: classpath:certs/public.pem
-  private-key: classpath:certs/private.pem
-server:
-  port: 8081
-  url: http://localhost:8081
-  verify-mail-url: http://localhost:8081/api/v1/auth/signup/verify-mail
-  reset-pass-url: http://localhost:8081/api/v1/auth/validate
-  mail:
-    from: no-reply@ordersystem
-    from-name: Order System
-    reply-to: no-reply@ordersystem
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/order_system_db
-    username: order_system_user
-    password: rootan
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: akbqkb780@gmail.com
-    password: ltnclerxotypeboa
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000r
+  profiles:
+    active: prod
 
 springdoc:
   swagger-ui:
