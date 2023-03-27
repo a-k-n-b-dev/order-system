@@ -1,9 +1,11 @@
 package dev.aknb.ordersystem.base;
 
+import dev.aknb.ordersystem.project.ProjectConfig;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +15,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI swaggerOpenAPI(Info info) {
 
-        return new OpenAPI().info(info);
+        return new OpenAPI()
+                .info(info)
+                .schemaRequirement(ProjectConfig.NAME, securityScheme());
     }
 
     @Bean
@@ -31,5 +35,13 @@ public class SwaggerConfig {
                         new License()
                                 .name("Apache License Version 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0"));
+    }
+
+    private SecurityScheme securityScheme() {
+        return new SecurityScheme()
+                .name(ProjectConfig.NAME)
+                .scheme("bearer")
+                .type(SecurityScheme.Type.HTTP)
+                .in(SecurityScheme.In.HEADER);
     }
 }

@@ -36,6 +36,9 @@ public class User extends BaseEntity {
     @Column(name = "verified")
     private Boolean verified = Boolean.FALSE;
 
+    @Column(name = "approved")
+    private Boolean approved = Boolean.FALSE;
+
     @Column(name = "password_changed_date")
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 

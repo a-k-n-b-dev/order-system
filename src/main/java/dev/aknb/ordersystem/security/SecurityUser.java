@@ -55,6 +55,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        // TODO: 27/03/23 should use approved instead of verified
         return verified;
     }
 }

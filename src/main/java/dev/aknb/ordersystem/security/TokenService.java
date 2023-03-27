@@ -1,6 +1,5 @@
 package dev.aknb.ordersystem.security;
 
-import dev.aknb.ordersystem.role.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,16 +29,40 @@ public class TokenService {
         this.jwtDecoder = jwtDecoder;
     }
 
-    public String generateAccessToken(String subject) {
-        return generateAccessToken(new HashMap<>(), subject);
+    public String generateToken(String subject) {
+        return generateToken(new HashMap<>(), subject, 1440L);
     }
 
-    public String generateAccessToken(Map<String, Object> extraClaims, String subject) {
+    public String generateToken(String subject, Long minutesToExpire) {
+        return generateToken(new HashMap<>(), subject, minutesToExpire);
+    }
+
+    public String generateToken(String subject, Collection<? extends GrantedAuthority> securityRoles) {
+        return generateToken(subject, securityRoles, 1440L);
+    }
+
+    public String generateToken(String subject, Collection<? extends GrantedAuthority> securityRoles, Long minutesToExpire) {
+
+        String authoritiesScope = securityRoles
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("scope", authoritiesScope);
+        return generateToken(claims, subject, minutesToExpire);
+    }
+
+    public String generateToken(Map<String, Object> extraClaims, String subject, Long minutesToExpire) {
 
         Instant now = Instant.now(Clock.systemUTC());
 
-        JwtClaimsSet claims = JwtClaimsSet.builder().issuer("self").issuedAt(now).expiresAt(now.plus(1, ChronoUnit.DAYS)).subject(subject).build();
-        claims.getClaims().putAll(extraClaims);
+        JwtClaimsSet claims = JwtClaimsSet
+                .builder()
+                .issuer("self")
+                .issuedAt(now)
+                .claims(stringObjectMap -> stringObjectMap.putAll(extraClaims))
+                .expiresAt(now.plus(minutesToExpire, ChronoUnit.MINUTES))
+                .subject(subject).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
@@ -71,22 +94,12 @@ public class TokenService {
         return Optional.empty();
     }
 
-    public String getScope(Set<Role> roles) {
-
-        return roles.stream().map(role -> role.getName().name()).collect(Collectors.joining(","));
-    }
-
     public Boolean isIssuedAtAfter(String token, Instant date) {
         Jwt jwt = extractAllClaims(token);
         return Objects.requireNonNull(jwt.getIssuedAt()).isAfter(date);
     }
 
-    public String extractEmail(String token) {
-
-        return extractClaim(token, jwt -> jwt.getClaim("email"));
-    }
-
-    public String extractUsername(String token) {
+    public String extractSubject(String token) {
 
         return extractClaim(token, Jwt::getSubject);
     }

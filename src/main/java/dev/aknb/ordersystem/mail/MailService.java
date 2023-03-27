@@ -34,9 +34,19 @@ public class MailService {
 
         String subject = messageResolver.getMessage(MessageType.EMAIL_VERIFICATION.name());
         Context context = new Context();
-        context.setVariable("serverUrl", projectConfig.getServerUrl());
+        context.setVariable("verifyUrl", projectConfig.getServerVerifyMailUrl());
         context.setVariable("subject", subject);
         context.setVariable("token", token);
         notification.sendNotification(email, templateEngine.process("verifyToken", context), subject);
+    }
+
+    @Async
+    public void sendResetPassword(String email, String token) {
+        String subject = messageResolver.getMessage(MessageType.RESET_PASSWORD.name());
+        Context context = new Context();
+        context.setVariable("resetUrl", projectConfig.getServerResetPassUrl());
+        context.setVariable("subject", subject);
+        context.setVariable("token", token);
+        notification.sendNotification(email, templateEngine.process("resetPassword", context), subject);
     }
 }

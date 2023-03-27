@@ -1,8 +1,13 @@
 package dev.aknb.ordersystem.security;
 
+import dev.aknb.ordersystem.base.ObjectUtils;
 import dev.aknb.ordersystem.message.MessageResolver;
+import dev.aknb.ordersystem.response.Response;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,13 +20,13 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 @Configuration
@@ -34,7 +39,10 @@ public class SecurityConfig {
     private final TokenService tokenService;
 
     private final String[] WHITE_URLS = new String[]{
-            "/api/v1/auth/**",
+            "/api/v1/auth/signup/**",
+            "/api/v1/auth/login",
+            "/api/v1/auth/password/reset",
+            "/api/v1/auth/validate",
             "/api/v1/country/**",
             "/api/v1/region/**"
     };
@@ -67,8 +75,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
+                        .authenticationEntryPoint((req, rsp, e) -> {
+                            rsp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            rsp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            PrintWriter writer = rsp.getWriter();
+                            writer.print(ObjectUtils.convertToJson(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED.name())));
+                            writer.flush();
+                        }).accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                 .addFilter(new CustomAuthenticationFilter(manager(userDetailsService), userDetailsService, messageResolver, tokenService))
                 .build();
     }

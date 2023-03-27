@@ -65,7 +65,7 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
             !tokenService.isIssuedAtAfter(token,
                     ((SecurityUser) userDetails).getPasswordChangedDate())) {
 
-            setErrorDataToResponse(response, MessageType.BAD_CREDENTIALS.name());
+            setErrorDataToResponse(response, MessageType.INVALID_CREDENTIALS.name());
             return;
         }
         SecurityContextHolder.getContext().setAuthentication(

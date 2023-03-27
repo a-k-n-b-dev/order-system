@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem.user;
 
 import dev.aknb.ordersystem.security.SecurityUser;
-import dev.aknb.ordersystem.user.auth.dto.SignupDto;
+import dev.aknb.ordersystem.user.auth.request.SignupDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -10,6 +10,9 @@ import org.mapstruct.MappingTarget;
 public interface UserMapper {
 
     SecurityUser toSecurityUser(User source);
+
+    UserDto toUserDto(User source);
+    UserDto toUserDto(SecurityUser source);
 
     @Mapping(target = "password", ignore = true)
     void update(@MappingTarget User target, SignupDto source);

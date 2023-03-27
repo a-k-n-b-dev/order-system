@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.user.auth.dto;
+package dev.aknb.ordersystem.user.auth.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

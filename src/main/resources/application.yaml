@@ -6,6 +6,8 @@ rsa:
 server:
   port: 8081
   url: http://localhost:8081
+  verify-mail-url: http://localhost:8081/api/v1/auth/signup/verify-mail
+  reset-pass-url: http://localhost:8081/api/v1/auth/validate
   mail:
     from: no-reply@ordersystem
     from-name: Order System

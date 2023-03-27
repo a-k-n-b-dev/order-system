@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.user.auth.dto;
+package dev.aknb.ordersystem.user.auth.request;
 
 import dev.aknb.ordersystem.user.ValidPhoneNumber;
 import jakarta.validation.constraints.NotBlank;

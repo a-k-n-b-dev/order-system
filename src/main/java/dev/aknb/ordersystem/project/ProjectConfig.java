@@ -19,4 +19,8 @@ public class ProjectConfig {
     private String serverMailReplyTo;
     @Value("${server.url}")
     private String serverUrl;
+    @Value("${server.verify-mail-url}")
+    private String serverVerifyMailUrl;
+    @Value("${server.reset-pass-url}")
+    private String serverResetPassUrl;
 }

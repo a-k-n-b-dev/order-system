@@ -40,7 +40,7 @@ public class VerifyToken {
     private LocalDateTime lastModifiedDate = LocalDateTime.now(Clock.systemUTC());
 
     public Boolean isExpired() {
-        Duration period = Duration.between(getCreatedDate(), LocalDateTime.now(Clock.systemUTC()));
+        Duration period = Duration.between(getLastModifiedDate(), LocalDateTime.now(Clock.systemUTC()));
         return period.toMinutes() > 20;
     }
 }
