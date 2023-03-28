@@ -1,5 +1,6 @@
 package dev.aknb.ordersystem.security;
 
+import dev.aknb.ordersystem.security.model.SecurityUser;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

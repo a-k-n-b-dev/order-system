@@ -5,8 +5,8 @@ import dev.aknb.ordersystem.mail.MailService;
 import dev.aknb.ordersystem.message.MessageType;
 import dev.aknb.ordersystem.role.Role;
 import dev.aknb.ordersystem.role.RoleEnum;
-import dev.aknb.ordersystem.security.SecurityUser;
 import dev.aknb.ordersystem.security.TokenService;
+import dev.aknb.ordersystem.security.model.SecurityUser;
 import dev.aknb.ordersystem.user.User;
 import dev.aknb.ordersystem.user.UserDto;
 import dev.aknb.ordersystem.user.UserMapper;
@@ -65,8 +65,8 @@ public class AuthService {
         }
 
         User user = userRepository.findByEmail(signupDto.getEmail()).orElse(new User());
-        if (user.getUserRoles().isEmpty()) {
-            user.getUserRoles().add(new Role(RoleEnum.ADMIN));
+        if (user.getRole() == null) {
+            user.setRole(new Role(RoleEnum.ADMIN));
         }
         userMapper.update(user, signupDto);
         user.setPassword(passwordEncoder.encode(signupDto.getPassword()));

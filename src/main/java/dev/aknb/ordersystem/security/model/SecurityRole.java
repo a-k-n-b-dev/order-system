@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.security;
+package dev.aknb.ordersystem.security.model;
 
 import dev.aknb.ordersystem.role.RoleEnum;
 import lombok.AllArgsConstructor;

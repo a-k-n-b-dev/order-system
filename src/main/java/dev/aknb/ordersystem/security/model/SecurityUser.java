@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.security;
+package dev.aknb.ordersystem.security.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
 
 @Getter
 @Setter
@@ -24,14 +23,16 @@ public class SecurityUser implements UserDetails {
 
     private String phoneNumber;
 
+    private String address;
+
     private Boolean verified = Boolean.FALSE;
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 
-    private Set<SecurityRole> userRoles = new HashSet<>();
+    private SecurityRole userRoles = new SecurityRole();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return userRoles;
+        return Collections.singleton(userRoles);
     }
 
     public String getUsername() {

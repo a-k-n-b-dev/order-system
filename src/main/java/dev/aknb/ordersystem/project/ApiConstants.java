@@ -8,4 +8,5 @@ public interface ApiConstants {
 
     String API_REGION = BASE_URL + "/region";
     String API_AUTH = BASE_URL + "/auth";
+    String API_ORDER = BASE_URL + "/order";
 }

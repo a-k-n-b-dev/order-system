@@ -4,6 +4,7 @@ import dev.aknb.ordersystem.base.ObjectUtils;
 import dev.aknb.ordersystem.message.MessageResolver;
 import dev.aknb.ordersystem.message.MessageType;
 import dev.aknb.ordersystem.response.Response;
+import dev.aknb.ordersystem.security.model.SecurityUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

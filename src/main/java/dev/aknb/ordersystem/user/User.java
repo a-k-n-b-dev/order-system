@@ -10,8 +10,6 @@ import org.hibernate.annotations.*;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -33,6 +31,9 @@ public class User extends BaseEntity {
     @Column(name = "phone_number", length = 15)
     private String phoneNumber;
 
+    @Column(name = "address", columnDefinition = "text")
+    private String address;
+
     @Column(name = "verified")
     private Boolean verified = Boolean.FALSE;
 
@@ -42,15 +43,9 @@ public class User extends BaseEntity {
     @Column(name = "password_changed_date")
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "id"),
-                    @JoinColumn(name = "full_name", referencedColumnName = "full_name")
-            }, inverseJoinColumns = {
-            @JoinColumn(name = "role_name", referencedColumnName = "name")})
+    @ManyToOne
+    @JoinColumn(name = "role_name", referencedColumnName = "name", updatable = false, insertable = false)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
-    private Set<Role> userRoles = new HashSet<>();
+    private Role role;
 }
