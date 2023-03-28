@@ -28,11 +28,11 @@ public class SecurityUser implements UserDetails {
     private Boolean verified = Boolean.FALSE;
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 
-    private SecurityRole userRoles = new SecurityRole();
+    private SecurityRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(userRoles);
+        return Collections.singleton(role);
     }
 
     public String getUsername() {

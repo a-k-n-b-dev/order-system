@@ -43,9 +43,8 @@ public class SecurityConfig {
             "/api/v1/auth/login",
             "/api/v1/auth/password/reset",
             "/api/v1/auth/validate",
-            "/api/v1/order/**",
-            "/api/v1/country/**",
-            "/api/v1/region/**"
+            "/api/v1/order/{id}",
+            "/api/v1/order/list"
     };
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsService, MessageResolver messageResolver, TokenService tokenService) {

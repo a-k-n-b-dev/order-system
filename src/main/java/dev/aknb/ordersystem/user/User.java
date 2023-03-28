@@ -45,7 +45,5 @@ public class User extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_name", referencedColumnName = "name", updatable = false, insertable = false)
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @BatchSize(size = 20)
     private Role role;
 }

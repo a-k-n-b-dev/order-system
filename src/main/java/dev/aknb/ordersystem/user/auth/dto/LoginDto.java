@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.user.auth.request;
+package dev.aknb.ordersystem.user.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

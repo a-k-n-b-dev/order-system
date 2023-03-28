@@ -44,6 +44,10 @@ public class Order extends BaseEntity {
     @Column(name = "price")
     private String price;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus status;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, insertable = false)
     private User user;

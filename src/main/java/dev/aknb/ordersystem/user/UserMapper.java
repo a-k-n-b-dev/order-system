@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem.user;
 
 import dev.aknb.ordersystem.security.model.SecurityUser;
-import dev.aknb.ordersystem.user.auth.request.SignupDto;
+import dev.aknb.ordersystem.user.auth.dto.SignupDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

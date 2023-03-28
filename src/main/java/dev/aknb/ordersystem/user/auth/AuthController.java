@@ -7,9 +7,9 @@ import dev.aknb.ordersystem.project.ProjectConfig;
 import dev.aknb.ordersystem.response.Response;
 import dev.aknb.ordersystem.security.SecurityContextUtils;
 import dev.aknb.ordersystem.user.UserDto;
-import dev.aknb.ordersystem.user.auth.request.ChangePasswordDto;
-import dev.aknb.ordersystem.user.auth.request.LoginDto;
-import dev.aknb.ordersystem.user.auth.request.SignupDto;
+import dev.aknb.ordersystem.user.auth.dto.ChangePasswordDto;
+import dev.aknb.ordersystem.user.auth.dto.LoginDto;
+import dev.aknb.ordersystem.user.auth.dto.SignupDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -63,7 +63,7 @@ public class AuthController {
 
     @SecurityRequirement(name = ProjectConfig.NAME)
     @ApiResponse(responseCode = "401", description = "A jwt token must be provided in the authentication header")
-    @PostMapping("/password/change")
+    @PatchMapping("/password/change")
     public ResponseEntity<Response<String>> changePassword(@RequestBody ChangePasswordDto request) {
 
         String email = SecurityContextUtils.getUserEmail().orElseThrow(() ->
