@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class OrderFilter extends Filter {
 
-    private OrderStatus status = OrderStatus.INSTALLED;
+    private OrderStatus status = OrderStatus.DELIVERED;
 }

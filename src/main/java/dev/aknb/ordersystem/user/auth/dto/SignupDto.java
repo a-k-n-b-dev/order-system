@@ -1,6 +1,7 @@
 package dev.aknb.ordersystem.user.auth.dto;
 
 import dev.aknb.ordersystem.user.ValidPhoneNumber;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class SignupDto {
     @Size(min = 4, max = 100, message = "FULL_NAME_MIN4_MAX100")
     private String fullName;
     @NotBlank(message = "EMAIL_NOT_BLANK")
+    @Email(message = "EMAIL_INVALID")
     private String email;
     @NotBlank(message = "PHONE_NUMBER_NOT_BLANK")
     @Size(min = 13, max = 15, message = "PHONE_NUMBER_MIN13_MAX15")

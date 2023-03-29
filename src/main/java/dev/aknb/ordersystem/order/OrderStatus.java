@@ -2,9 +2,9 @@ package dev.aknb.ordersystem.order;
 
 public enum OrderStatus {
 
-    TAKED,
+    TAKEN,
     STARTED,
     PAINTING,
     FINISHED,
-    INSTALLED
+    DELIVERED
 }

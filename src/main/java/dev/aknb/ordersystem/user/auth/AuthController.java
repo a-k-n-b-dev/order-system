@@ -9,9 +9,11 @@ import dev.aknb.ordersystem.security.SecurityContextUtils;
 import dev.aknb.ordersystem.user.UserDto;
 import dev.aknb.ordersystem.user.auth.dto.ChangePasswordDto;
 import dev.aknb.ordersystem.user.auth.dto.LoginDto;
+import dev.aknb.ordersystem.user.auth.dto.ResetPasswordDto;
 import dev.aknb.ordersystem.user.auth.dto.SignupDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping(ApiConstants.API_AUTH)
+@Tag(name = "Authentication APIs")
 public class AuthController {
 
     private final AuthService authService;
@@ -45,7 +48,7 @@ public class AuthController {
                 Response.ok(authService.verifyMail(token)));
     }
 
-    @GetMapping("/signup/verify-email/resend/{token}")
+    @GetMapping("/signup/verify-mail/resend/{token}")
     public ResponseEntity<Response<String>> resendLink(@PathVariable("token") String jwtToken) {
 
         log.info("Rest request to resend verify-mail");
@@ -75,10 +78,10 @@ public class AuthController {
     }
 
     @GetMapping("/password/reset")
-    public ResponseEntity<Response<String>> resetPassword(@RequestParam("email") String email) {
+    public ResponseEntity<Response<String>> resetPassword(@RequestBody ResetPasswordDto request) {
 
-        log.info("Reset password request for email: {}", email);
-        authService.resetPassword(email);
+        log.info("Reset password request for email: {}", request.getEmail());
+        authService.resetPassword(request.getEmail());
         return ResponseEntity.ok(
                 Response.ok("We sent reset password link to your email. Please check your email"));
     }
