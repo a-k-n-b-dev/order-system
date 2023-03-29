@@ -77,7 +77,7 @@ public class AuthController {
                 Response.ok("Password successfully changed"));
     }
 
-    @GetMapping("/password/reset")
+    @PostMapping("/password/reset")
     public ResponseEntity<Response<String>> resetPassword(@RequestBody ResetPasswordDto request) {
 
         log.info("Reset password request for email: {}", request.getEmail());
