@@ -8,6 +8,7 @@ import dev.aknb.ordersystem.project.ProjectConfig;
 import dev.aknb.ordersystem.response.Response;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class OrderController {
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER', 'DEV')")
     @PostMapping
-    public ResponseEntity<Response<OrderDto>> createOrder(@RequestBody CreateOrderDto request) {
+    public ResponseEntity<Response<OrderDto>> createOrder(@Valid @RequestBody CreateOrderDto request) {
 
         log.info("Rest request to create order customer full name: {}", request.getFullName());
         return ResponseEntity.ok(
