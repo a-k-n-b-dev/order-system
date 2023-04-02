@@ -80,7 +80,7 @@ public class AuthService {
 
         VerifyToken verifyToken = verifyTokenService.getIfValid(token);
         User user = verifyToken.getUser();
-        user.setVerified(Boolean.FALSE);
+        user.setVerified(Boolean.TRUE);
         userRepository.save(user);
         verifyTokenService.delete(verifyToken);
         UserDto userDto = userMapper.toUserDto(user);
