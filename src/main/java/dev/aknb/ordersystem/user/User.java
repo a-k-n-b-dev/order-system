@@ -2,11 +2,12 @@ package dev.aknb.ordersystem.user;
 
 import dev.aknb.ordersystem.base.BaseEntity;
 import dev.aknb.ordersystem.role.Role;
-import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.ResultCheckStyle;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -44,6 +45,6 @@ public class User extends BaseEntity {
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 
     @ManyToOne
-    @JoinColumn(name = "role_name", referencedColumnName = "name", updatable = false, insertable = false)
+    @JoinColumn(name = "role_name", referencedColumnName = "name")
     private Role role;
 }
