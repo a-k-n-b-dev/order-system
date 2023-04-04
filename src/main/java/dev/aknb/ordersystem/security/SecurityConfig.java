@@ -41,6 +41,7 @@ public class SecurityConfig {
     private final String[] WHITE_URLS = new String[]{
             "/api/v1/auth/signup/**",
             "/api/v1/auth/login",
+            "/api/v1/auth/approve",
             "/api/v1/auth/password/reset",
             "/api/v1/auth/validate",
             "/api/v1/order/{id}",

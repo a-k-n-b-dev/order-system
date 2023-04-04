@@ -49,4 +49,20 @@ public class MailService {
         context.setVariable("token", token);
         notification.sendNotification(email, templateEngine.process("resetPassword", context), subject);
     }
+
+    @Async
+    public void sendApprove(String email, String token) {
+        String subject = messageResolver.getMessage(MessageType.APPROVE.name());
+        Context context = new Context();
+        context.setVariable("approveUrl", projectConfig.getServerApproveUrl());
+        context.setVariable("subject", subject);
+        context.setVariable("token", token);
+        context.setVariable("email", email);
+        notification.sendNotification(email, templateEngine.process("approve", context), subject);
+    }
+
+    @Async
+    public void sendApproved(String email) {
+        // TODO: 03/04/23  
+    }
 }

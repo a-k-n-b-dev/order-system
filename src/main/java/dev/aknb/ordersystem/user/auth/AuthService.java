@@ -84,7 +84,22 @@ public class AuthService {
         userRepository.save(user);
         verifyTokenService.delete(verifyToken);
         UserDto userDto = userMapper.toUserDto(user);
-        return new TokenDataDto<>(userDto, tokenService.generateToken(userDto.getEmail()));
+        TokenDataDto<UserDto> userDtoTokenDataDto = new TokenDataDto<>(userDto, tokenService.generateToken(userDto.getEmail()));
+        mailService.sendApprove(user.getEmail(), verifyTokenService.createToken(user));
+        return userDtoTokenDataDto;
+    }
+
+    public void approveUser(String token) {
+
+        VerifyToken verifyToken = verifyTokenService.getIfValid(token);
+        User user = verifyToken.getUser();
+        if (!user.getVerified()) {
+            throw RestException.restThrow(HttpStatus.BAD_REQUEST, MessageType.EMAIL_NOT_VERIFIED.name());
+        }
+        user.setApproved(Boolean.TRUE);
+        userRepository.save(user);
+        verifyTokenService.delete(verifyToken);
+        mailService.sendApproved(user.getEmail());
     }
 
     public String resendVerifyMailLink(String jwtToken) {

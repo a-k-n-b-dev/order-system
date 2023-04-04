@@ -23,4 +23,6 @@ public class ProjectConfig {
     private String serverVerifyMailUrl;
     @Value("${server.reset-pass-url}")
     private String serverResetPassUrl;
+    @Value("${server.approve-url}")
+    private String serverApproveUrl;
 }

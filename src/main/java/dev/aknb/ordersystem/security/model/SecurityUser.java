@@ -26,6 +26,7 @@ public class SecurityUser implements UserDetails {
     private String address;
 
     private Boolean verified = Boolean.FALSE;
+    private Boolean approved = Boolean.FALSE;
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 
     private SecurityRole role;
@@ -56,7 +57,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        // TODO: 27/03/23 should use approved instead of verified
-        return verified;
+
+        return this.approved;
     }
 }

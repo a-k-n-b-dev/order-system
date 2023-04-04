@@ -48,6 +48,15 @@ public class AuthController {
                 Response.ok(authService.verifyMail(token)));
     }
 
+    @GetMapping("/approve")
+    public ResponseEntity<Response<String>> approveUser(@RequestParam("token") String token) {
+
+        log.info("Rest request to verify mail token: {}", token);
+        authService.verifyMail(token);
+        return ResponseEntity.ok(
+                Response.ok("User successfully approved!"));
+    }
+
     @GetMapping("/signup/verify-mail/resend/{token}")
     public ResponseEntity<Response<String>> resendLink(@PathVariable("token") String jwtToken) {
 
