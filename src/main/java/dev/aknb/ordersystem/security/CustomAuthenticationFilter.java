@@ -1,9 +1,9 @@
 package dev.aknb.ordersystem.security;
 
-import dev.aknb.ordersystem.base.ObjectUtils;
-import dev.aknb.ordersystem.message.MessageResolver;
-import dev.aknb.ordersystem.message.MessageType;
-import dev.aknb.ordersystem.response.Response;
+import dev.aknb.ordersystem.utils.ObjectUtils;
+import dev.aknb.ordersystem.services.MessageResolverService;
+import dev.aknb.ordersystem.models.MessageType;
+import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.security.model.SecurityUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,13 +26,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final MessageResolver messageResolver;
+    private final MessageResolverService messageResolverService;
     private final TokenService tokenService;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, MessageResolver messageResolver, TokenService tokenService) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, MessageResolverService messageResolverService, TokenService tokenService) {
         super(authenticationManager);
         this.userDetailsService = userDetailsService;
-        this.messageResolver = messageResolver;
+        this.messageResolverService = messageResolverService;
         this.tokenService = tokenService;
     }
 
@@ -80,6 +80,6 @@ public class CustomAuthenticationFilter extends BasicAuthenticationFilter {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(
                 ObjectUtils.convertToJson(
-                        Response.error(messageResolver.getMessage(code, args), code)));
+                        Response.error(messageResolverService.getMessage(code, args), code)));
     }
 }

@@ -1,8 +1,7 @@
 package dev.aknb.ordersystem.exception;
 
-import dev.aknb.ordersystem.message.MessageResolver;
-import dev.aknb.ordersystem.response.ErrorData;
-import dev.aknb.ordersystem.response.Response;
+import dev.aknb.ordersystem.services.MessageResolverService;
+import dev.aknb.ordersystem.models.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,16 +20,16 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
-    private final MessageResolver messageResolver;
+    private final MessageResolverService messageResolverService;
 
-    public ExceptionController(MessageResolver messageResolver) {
-        this.messageResolver = messageResolver;
+    public ExceptionController(MessageResolverService messageResolverService) {
+        this.messageResolverService = messageResolverService;
     }
 
     @ExceptionHandler(value = {RestException.class})
     public ResponseEntity<Response<ErrorData>> handleException(RestException exception) {
 
-        String message = messageResolver.getMessage(exception.getCode(), exception.getArgs());
+        String message = messageResolverService.getMessage(exception.getCode(), exception.getArgs());
 
         if (exception.getFieldName() != null) {
 
@@ -52,7 +51,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         List<FieldError> errors = ex.getFieldErrors();
         List<ErrorData> errorData = errors.stream()
                 .map(error ->
-                        new ErrorData(messageResolver.getMessage(error.getDefaultMessage()),
+                        new ErrorData(messageResolverService.getMessage(error.getDefaultMessage()),
                                 error.getDefaultMessage())
                 ).collect(Collectors.toList());
         return handleExceptionInternal(ex, errorData, headers, HttpStatus.BAD_REQUEST, request);

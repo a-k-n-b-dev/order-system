@@ -1,11 +1,10 @@
 package dev.aknb.ordersystem.notification;
 
-import dev.aknb.ordersystem.project.ProjectConfig;
+import dev.aknb.ordersystem.config.ProjectConfig;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

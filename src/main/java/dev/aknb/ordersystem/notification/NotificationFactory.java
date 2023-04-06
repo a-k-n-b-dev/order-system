@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem.notification;
 
 import dev.aknb.ordersystem.exception.RestException;
-import dev.aknb.ordersystem.message.MessageType;
+import dev.aknb.ordersystem.models.MessageType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

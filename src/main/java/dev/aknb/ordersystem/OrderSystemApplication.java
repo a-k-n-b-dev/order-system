@@ -1,6 +1,6 @@
 package dev.aknb.ordersystem;
 
-import dev.aknb.ordersystem.project.ProjectConfig;
+import dev.aknb.ordersystem.config.ProjectConfig;
 import dev.aknb.ordersystem.security.RsaKeyProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

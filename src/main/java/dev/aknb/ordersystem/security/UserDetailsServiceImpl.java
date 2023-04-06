@@ -1,8 +1,8 @@
 package dev.aknb.ordersystem.security;
 
-import dev.aknb.ordersystem.user.User;
-import dev.aknb.ordersystem.user.UserMapper;
-import dev.aknb.ordersystem.user.UserRepository;
+import dev.aknb.ordersystem.entities.User;
+import dev.aknb.ordersystem.mappers.UserMapper;
+import dev.aknb.ordersystem.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

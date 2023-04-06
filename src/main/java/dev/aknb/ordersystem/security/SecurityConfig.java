@@ -1,8 +1,8 @@
 package dev.aknb.ordersystem.security;
 
-import dev.aknb.ordersystem.base.ObjectUtils;
-import dev.aknb.ordersystem.message.MessageResolver;
-import dev.aknb.ordersystem.response.Response;
+import dev.aknb.ordersystem.utils.ObjectUtils;
+import dev.aknb.ordersystem.services.MessageResolverService;
+import dev.aknb.ordersystem.models.Response;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +35,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final MessageResolver messageResolver;
+    private final MessageResolverService messageResolverService;
     private final TokenService tokenService;
 
     private final String[] WHITE_URLS = new String[]{
@@ -48,9 +48,9 @@ public class SecurityConfig {
             "/api/v1/order/list"
     };
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, MessageResolver messageResolver, TokenService tokenService) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, MessageResolverService messageResolverService, TokenService tokenService) {
         this.userDetailsService = userDetailsService;
-        this.messageResolver = messageResolver;
+        this.messageResolverService = messageResolverService;
         this.tokenService = tokenService;
     }
 
@@ -83,7 +83,7 @@ public class SecurityConfig {
                             writer.print(ObjectUtils.convertToJson(Response.error(e.getMessage(), HttpStatus.UNAUTHORIZED.name())));
                             writer.flush();
                         }).accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-                .addFilter(new CustomAuthenticationFilter(manager(userDetailsService), userDetailsService, messageResolver, tokenService))
+                .addFilter(new CustomAuthenticationFilter(manager(userDetailsService), userDetailsService, messageResolverService, tokenService))
                 .build();
     }
 

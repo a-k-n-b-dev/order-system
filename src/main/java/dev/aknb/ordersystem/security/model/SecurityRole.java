@@ -1,6 +1,6 @@
 package dev.aknb.ordersystem.security.model;
 
-import dev.aknb.ordersystem.role.RoleEnum;
+import dev.aknb.ordersystem.models.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
