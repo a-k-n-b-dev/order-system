@@ -4,7 +4,7 @@ import dev.aknb.ordersystem.services.OrderService;
 import dev.aknb.ordersystem.dtos.order.CreateOrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderFilter;
-import dev.aknb.ordersystem.constants.ApiConstants;
+import dev.aknb.ordersystem.controllers.constants.ApiConstants;
 import dev.aknb.ordersystem.config.ProjectConfig;
 import dev.aknb.ordersystem.models.Response;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

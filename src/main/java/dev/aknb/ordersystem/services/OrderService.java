@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem.services;
 
 import dev.aknb.ordersystem.entities.Order;
-import dev.aknb.ordersystem.exception.RestException;
+import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.mappers.OrderMapper;
 import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.models.OrderStatus;

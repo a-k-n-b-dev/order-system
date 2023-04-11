@@ -1,7 +1,6 @@
 package dev.aknb.ordersystem.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dev.aknb.ordersystem.exception.ErrorData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

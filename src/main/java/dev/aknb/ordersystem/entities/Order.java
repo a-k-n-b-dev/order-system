@@ -12,6 +12,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -54,4 +55,7 @@ public class Order extends BaseEntity {
 
     @Column(name = "user_id")
     private Long userId;
+
+    @OneToMany(mappedBy = "order")
+    private List<Image> images;
 }

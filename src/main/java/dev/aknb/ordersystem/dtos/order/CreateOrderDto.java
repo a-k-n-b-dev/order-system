@@ -1,12 +1,13 @@
 package dev.aknb.ordersystem.dtos.order;
 
-import dev.aknb.ordersystem.validator.ValidPhoneNumber;
+import dev.aknb.ordersystem.utils.validator.ValidPhoneNumber;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +20,7 @@ public class CreateOrderDto {
     private String description;
     private String agreement;
     private String price;
+    private List<String> imagesToken;
 
     // Customer info
 

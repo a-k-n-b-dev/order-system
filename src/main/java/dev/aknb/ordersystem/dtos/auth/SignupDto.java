@@ -1,6 +1,6 @@
 package dev.aknb.ordersystem.dtos.auth;
 
-import dev.aknb.ordersystem.validator.ValidPhoneNumber;
+import dev.aknb.ordersystem.utils.validator.ValidPhoneNumber;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

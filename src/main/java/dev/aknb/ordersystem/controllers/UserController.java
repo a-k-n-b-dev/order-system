@@ -1,6 +1,6 @@
 package dev.aknb.ordersystem.controllers;
 
-import dev.aknb.ordersystem.constants.ApiConstants;
+import dev.aknb.ordersystem.controllers.constants.ApiConstants;
 import dev.aknb.ordersystem.config.ProjectConfig;
 import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.dtos.UserDto;

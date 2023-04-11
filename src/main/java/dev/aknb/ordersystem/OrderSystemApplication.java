@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem;
 
 import dev.aknb.ordersystem.config.ProjectConfig;
-import dev.aknb.ordersystem.security.RsaKeyProperties;
+import dev.aknb.ordersystem.config.RsaKeyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync(proxyTargetClass = true)
 @EnableJpaAuditing
 @EnableTransactionManagement
-@EnableConfigurationProperties(RsaKeyProperties.class)
+@EnableConfigurationProperties(RsaKeyConfig.class)
 @SpringBootApplication(scanBasePackages = {ProjectConfig.BASE_PACKAGE})
 public class OrderSystemApplication {
 

@@ -1,11 +1,10 @@
 package dev.aknb.ordersystem.services;
 
-import dev.aknb.ordersystem.exception.RestException;
+import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.entities.Role;
 import dev.aknb.ordersystem.models.RoleEnum;
-import dev.aknb.ordersystem.security.TokenService;
-import dev.aknb.ordersystem.security.model.SecurityUser;
+import dev.aknb.ordersystem.dtos.security.SecurityUser;
 import dev.aknb.ordersystem.entities.User;
 import dev.aknb.ordersystem.dtos.UserDto;
 import dev.aknb.ordersystem.mappers.UserMapper;

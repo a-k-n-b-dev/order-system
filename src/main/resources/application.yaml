@@ -1,10 +1,22 @@
-
-
 spring:
   profiles:
-    active: dev
+    active: prod
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
 
 springdoc:
   swagger-ui:
     tags-sorter: alpha
     doc-expansion: none
+
+
+#
+firebase:
+  project:
+    id: storage-c560f
+  bucket:
+    name: storage-c560f.appspot.com
+  download:
+    url: https://firebasestorage.googleapis.com/v0/b/${firebase.bucket.name}/o/%s?alt=media

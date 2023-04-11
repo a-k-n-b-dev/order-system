@@ -1,9 +1,9 @@
 package dev.aknb.ordersystem.services;
 
 import dev.aknb.ordersystem.models.MessageType;
-import dev.aknb.ordersystem.notification.Notification;
-import dev.aknb.ordersystem.notification.NotificationFactory;
-import dev.aknb.ordersystem.notification.NotificationType;
+import dev.aknb.ordersystem.services.notification.Notification;
+import dev.aknb.ordersystem.services.notification.NotificationFactory;
+import dev.aknb.ordersystem.services.notification.NotificationType;
 import dev.aknb.ordersystem.config.ProjectConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
