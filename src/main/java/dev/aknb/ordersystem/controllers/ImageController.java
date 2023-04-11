@@ -8,6 +8,7 @@ import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.services.ImageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -27,6 +28,7 @@ import java.io.InputStream;
 
 @Slf4j
 @RestController
+@Tag(name = "Image APIs")
 @RequestMapping(ApiConstants.API_IMAGE)
 public class ImageController {
 
