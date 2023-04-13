@@ -74,17 +74,14 @@ public class AuthService {
         return token;
     }
 
-    public TokenDataDto<UserDto> verifyMail(String token) {
+    public void verifyMail(String token) {
 
         VerifyToken verifyToken = verifyTokenService.getIfValid(token);
         User user = verifyToken.getUser();
         user.setVerified(Boolean.TRUE);
         userRepository.save(user);
         verifyTokenService.delete(verifyToken);
-        UserDto userDto = userMapper.toUserDto(user);
-        TokenDataDto<UserDto> userDtoTokenDataDto = new TokenDataDto<>(userDto, tokenService.generateToken(userDto.getEmail()));
         mailService.sendApprove(user.getEmail(), verifyTokenService.createToken(user));
-        return userDtoTokenDataDto;
     }
 
     public void approveUser(String token) {

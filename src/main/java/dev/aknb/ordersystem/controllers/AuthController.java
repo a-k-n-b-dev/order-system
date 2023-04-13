@@ -43,11 +43,12 @@ public class AuthController {
     }
 
     @GetMapping("/signup/verify-mail")
-    public ResponseEntity<Response<TokenDataDto<UserDto>>> verifyMail(@RequestParam("token") String token) {
+    public ResponseEntity<Response<String>> verifyMail(@RequestParam("token") String token) {
 
         log.info("Rest request to verify mail token: {}", token);
+        authService.verifyMail(token);
         return ResponseEntity.ok(
-                Response.ok(authService.verifyMail(token)));
+                Response.ok("Successfully verified! Please wait till admin approves."));
     }
 
     @GetMapping("/approve")

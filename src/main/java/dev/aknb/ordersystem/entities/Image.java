@@ -18,8 +18,8 @@ public class Image extends BaseEntity {
 
     @Column(name = "url")
     private String url;
-    @Column(name = "original_filename")
-    private String originalFilename;
+    @Column(name = "filename")
+    private String filename;
     @Column(name = "unique_name")
     private String uniqueName;
     @Column(name = "token")

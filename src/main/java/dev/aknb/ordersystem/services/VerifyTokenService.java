@@ -23,6 +23,9 @@ public class VerifyTokenService {
     public String createToken(User user) {
         VerifyToken verifyToken = verifyTokenRepository.findByUserId(user.getId())
                 .orElse(new VerifyToken());
+        if (verifyToken.isExpired()) {
+            verifyToken = new VerifyToken();
+        }
         verifyToken.setToken(UUID.randomUUID().toString());
         verifyToken.setUserId(user.getId());
         return verifyTokenRepository.save(verifyToken).getToken();
