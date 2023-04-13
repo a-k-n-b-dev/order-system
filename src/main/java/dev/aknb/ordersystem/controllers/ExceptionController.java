@@ -1,10 +1,12 @@
 package dev.aknb.ordersystem.controllers;
 
 import dev.aknb.ordersystem.models.ErrorData;
+import dev.aknb.ordersystem.models.MessageType;
+import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.services.MessageResolverService;
-import dev.aknb.ordersystem.models.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,10 +42,20 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                     .body(Response.error(message, exception.getCode()));
         }
 
-        log.error("{}", message);
+        log.error(message);
         return ResponseEntity
                 .status(exception.getStatus())
                 .body(Response.error(message, exception.getCode()));
+    }
+
+    @ExceptionHandler(FileSizeLimitExceededException.class)
+    public ResponseEntity<?> handleFileSizeLimitExceeded(FileSizeLimitExceededException ignoredEx) {
+
+        String message = messageResolverService.getMessage(MessageType.SIZE_LIMIT_EXCEEDED.name());
+        log.error(message);
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Response.error(message, MessageType.SIZE_LIMIT_EXCEEDED.name()));
     }
 
     @Override

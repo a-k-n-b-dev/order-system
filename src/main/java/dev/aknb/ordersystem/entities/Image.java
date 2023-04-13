@@ -11,15 +11,17 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @Entity
-@Table(name = "attachments")
+@Table(name = "images")
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "update images set deleted = true where id = ?", check = ResultCheckStyle.COUNT)
 public class Image extends BaseEntity {
 
     @Column(name = "url")
     private String url;
-    @Column(name = "name")
-    private String name;
+    @Column(name = "original_filename")
+    private String originalFilename;
+    @Column(name = "unique_name")
+    private String uniqueName;
     @Column(name = "token")
     private String token;
     @Column(name = "extension")

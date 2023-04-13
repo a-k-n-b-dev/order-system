@@ -1,5 +1,6 @@
 package dev.aknb.ordersystem.services;
 
+import dev.aknb.ordersystem.dtos.ImageDto;
 import dev.aknb.ordersystem.entities.Image;
 import dev.aknb.ordersystem.integration.firebase.FirebaseStorageService;
 import dev.aknb.ordersystem.mappers.ImageMapper;
@@ -43,9 +44,8 @@ public class ImageService {
 
         Image image = imageMapper.toFileStorage(multipartFile);
         image.setOrderId(orderId);
-        String imageToken = String.format("%s.%s", image.getToken(), image.getExtension());
-        File file = convertMultipartToFile(multipartFile, imageToken);
-        String url = firebaseStorageService.upload(file, imageToken);
+        File file = convertMultipartToFile(multipartFile, image.getUniqueName());
+        String url = firebaseStorageService.upload(file, image.getUniqueName());
         image.setUrl(url);
         imageRepository.save(image);
     }
@@ -59,13 +59,17 @@ public class ImageService {
         return convertedFile;
     }
 
-    public File view(String token) throws IOException {
+    public ImageDto view(String token) throws IOException {
 
         Optional<Image> image = imageRepository.findByToken(token);
         if (image.isEmpty()) {
             throw RestException.restThrow(HttpStatus.NOT_FOUND, MessageType.IMAGE_NOT_FOUND.name());
         }
-        String fileName = String.format("%s.%s", image.get().getToken(), image.get().getExtension());
-        return firebaseStorageService.download(fileName);
+        byte[] data = firebaseStorageService.download(image.get().getUniqueName());
+        ImageDto imageDto = new ImageDto();
+        imageDto.setData(data);
+        imageDto.setExtension(image.get().getExtension());
+        imageDto.setUrl(image.get().getUrl());
+        return imageDto;
     }
 }

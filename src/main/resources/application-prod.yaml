@@ -5,8 +5,9 @@ rsa:
 server:
   port: 8081
   url: https://order-system.up.railway.app
-  verify-mail-url: https://order-system.up.railway.app/api/v1/auth/signup/verify-mail
-  reset-pass-url: https://order-system.up.railway.app/api/v1/auth/validate
+  approve-url: ${server.url}/api/v1/auth/approve
+  verify-mail-url: ${server.url}/api/v1/auth/signup/verify-mail
+  reset-pass-url: ${server.url}/api/v1/auth/validate
   mail:
     from: no-reply@ordersystem
     from-name: Order System

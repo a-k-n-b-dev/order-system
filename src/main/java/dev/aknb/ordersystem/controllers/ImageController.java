@@ -3,28 +3,26 @@ package dev.aknb.ordersystem.controllers;
 import com.nimbusds.jose.util.BoundedInputStream;
 import dev.aknb.ordersystem.config.ProjectConfig;
 import dev.aknb.ordersystem.controllers.constants.ApiConstants;
+import dev.aknb.ordersystem.dtos.ImageDto;
 import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.services.ImageService;
+import dev.aknb.ordersystem.utils.FileUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RestController
@@ -53,53 +51,72 @@ public class ImageController {
         return ResponseEntity.ok(Response.ok("Images successfully uploaded"));
     }
 
-    @PostMapping("/view/{token}")
+    @GetMapping("/view/{token}")
     public ResponseEntity<?> view(@PathVariable("token") String token,
                                   @RequestHeader(value = "Range", required = false) String rangeHeader,
-                                  @RequestHeader(value = "If-None-Match", required = false) String ifNonMatch,
-                                  HttpServletResponse httpServletResponse) throws IOException {
+                                  @RequestHeader(value = "If-None-Match", required = false) String ifNonMatch) throws IOException {
 
         log.info("Rest request to view image token: {}", token);
-        File file = imageService.view(token);
+        ImageDto imageDto = imageService.view(token);
 
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-
+        // Get the file size and Set the response headers
+        long fileSize = imageDto.getData().length;
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, MediaType.IMAGE_JPEG_VALUE);
+        headers.setContentType(FileUtils.getMediaType(imageDto.getExtension()));
+        headers.setCacheControl(CacheControl.maxAge(24, TimeUnit.HOURS).cachePublic());
 
-        long fileSize = file.length();
+        // Set the ETag header to the MD5 hash of the file
+        String eTag = String.format("\"%s\"", DigestUtils.md5Hex(imageDto.getData()));
+        headers.setETag(eTag);
 
-        if (rangeHeader == null || "".equals(rangeHeader)) {
-            headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(fileSize));
-            httpServletResponse.setHeader("Cache-Control", "max-age=86400"); // Cache for 24 hours
-            String eTag = String.format("\"%s\"", DigestUtils.md5Hex(new FileInputStream(file)));
-            httpServletResponse.setHeader("ETag", eTag);
-            if (eTag.equals(ifNonMatch)) {
-                return new ResponseEntity<>(null, headers, HttpStatus.NOT_MODIFIED);
+        if (eTag.equals(ifNonMatch)) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_MODIFIED)
+                    .headers(headers)
+                    .build();
+        }
+
+        // If the request has a Range header, return a partial content response
+        if (rangeHeader != null && rangeHeader.startsWith("bytes ")) {
+
+            // Parse the Range header to get the byte range
+            String[] rangeValue = rangeHeader.split("=")[1].split("-");
+
+            long startByte = Long.parseLong(rangeValue[0]);
+            long endByte = fileSize - 1;
+            if (rangeValue.length > 1) {
+                endByte = Long.parseLong(rangeValue[1]);
             }
-            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            long contentLength = endByte - startByte + 1;
+
+            // Set the content range header
+            headers.add(HttpHeaders.CONTENT_RANGE, "bytes " + startByte + "-" + endByte + "/" + fileSize);
+            headers.setContentLength(contentLength);
+
+            // Get the input stream of the resource and skip the initial bytes based on the start byte position
+            InputStream inputStream = new ByteArrayInputStream(imageDto.getData());
+
+            // Read and discard the first `rangeStart` bytes
+            long skippedBytes = inputStream.skip(startByte);
+            while (skippedBytes > 0) {
+                skippedBytes -= inputStream.skip(skippedBytes);
+            }
+
+            // Return a partial content response with the input stream bounded by the specified byte range
+            BoundedInputStream boundedInputStream = new BoundedInputStream(inputStream, contentLength);
+            return ResponseEntity
+                    .status(HttpStatus.PARTIAL_CONTENT)
+                    .headers(headers)
+                    .body(new InputStreamResource(boundedInputStream));
         }
 
-        String[] rangeHeaderArray = rangeHeader.split("=");
-        String range = rangeHeaderArray[1];
-
-        String[] rangeArray = range.split("-");
-        long rangeStart = Long.parseLong(rangeArray[0]);
-        long rangEnd = rangeStart + 1024 * 1024; // 1MB chunk size
-
-        if (rangEnd > fileSize - 1) {
-            rangEnd = fileSize - 1;
-        }
-
-        long rangeLength = rangEnd - rangeStart + 1;
-
-        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(rangeLength));
-        headers.add(HttpHeaders.CONTENT_RANGE, "bytes " + rangeStart + "-" + rangEnd + "/" + fileSize);
-        InputStream inputStream = new FileInputStream(file);
-        inputStream.skip(rangeStart);
-
-        return new ResponseEntity<>(new InputStreamResource(new BoundedInputStream(inputStream, rangeLength)), headers, HttpStatus.PARTIAL_CONTENT);
+        // If the request does not have a Range header, return a full content response
+        headers.setContentLength(fileSize);
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(imageDto.getData());
     }
+
 }
 
 

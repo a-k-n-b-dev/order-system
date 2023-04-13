@@ -9,5 +9,5 @@ public interface FirebaseStorageService {
 
     String upload(File file, String fileName) throws IOException;
 
-    File download(String fileName) throws IOException;
+    byte[] download(String fileName) throws IOException;
 }

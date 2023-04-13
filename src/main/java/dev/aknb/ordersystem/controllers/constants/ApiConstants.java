@@ -6,5 +6,5 @@ public interface ApiConstants {
     String API_AUTH = BASE_URL + "/auth";
     String API_ORDER = BASE_URL + "/order";
     String API_USER = BASE_URL + "/user";
-    String API_IMAGE = BASE_URL + "/attachment";
+    String API_IMAGE = BASE_URL + "/image";
 }

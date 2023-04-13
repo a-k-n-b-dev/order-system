@@ -11,8 +11,9 @@ import java.util.UUID;
 public interface ImageMapper {
 
     @Mapping(target = "token", expression = "java(getRandomToken())")
-    @Mapping(target = "name", expression = "java(multipartFile.getOriginalFilename())")
+    @Mapping(target = "originalFilename", expression = "java(multipartFile.getOriginalFilename())")
     @Mapping(target = "extension", expression = "java(getExtension(multipartFile.getOriginalFilename()))")
+    @Mapping(target = "uniqueName", expression = "java(String.format(\"%s.%s\", image.getToken(), image.getExtension()))")
     Image toFileStorage(MultipartFile multipartFile);
 
     default String getExtension(String imageName) {

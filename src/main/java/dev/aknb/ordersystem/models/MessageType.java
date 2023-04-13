@@ -18,5 +18,6 @@ public enum MessageType {
     ALREADY_VERIFIED,
     RESET_PASSWORD,
     PASSWORD_NOT_MATCHED,
-    APPROVE
+    APPROVE,
+    SIZE_LIMIT_EXCEEDED
 }
