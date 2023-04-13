@@ -2,7 +2,7 @@ package dev.aknb.ordersystem.models;
 
 public enum OrderStatus {
 
-    TAKEN,
+    RECEIVED,
     STARTED,
     PAINTING,
     FINISHED,

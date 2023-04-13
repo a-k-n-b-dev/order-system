@@ -97,7 +97,7 @@ public class AuthService {
         user.setApproved(Boolean.TRUE);
         userRepository.save(user);
         verifyTokenService.delete(verifyToken);
-        mailService.sendApproved(user.getEmail());
+        mailService.sendApproved(user.getEmail(), user.getFullName());
     }
 
     public String resendVerifyMailLink(String jwtToken) {

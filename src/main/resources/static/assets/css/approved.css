@@ -1,0 +1,39 @@
+/* Global */
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    background-color: #f7f7f7;
+}
+
+/* Typography */
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 10px;
+    color: #333;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+ul {
+    margin: 0 0 10px;
+    padding-left: 20px;
+}
+
+li {
+    margin: 0 0 5px;
+}
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

@@ -61,7 +61,11 @@ public class MailService {
     }
 
     @Async
-    public void sendApproved(String email) {
-        // TODO: 03/04/23  
+    public void sendApproved(String email, String fullName) {
+        // TODO: 03/04/23
+        String subject = messageResolverService.getMessage(MessageType.APPROVED.name());
+        Context context = new Context();
+        context.setVariable("username", fullName);
+        notification.sendNotification(email, templateEngine.process("approved", context), subject);
     }
 }

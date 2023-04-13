@@ -54,7 +54,7 @@ public class AuthController {
     public ResponseEntity<Response<String>> approveUser(@RequestParam("token") String token) {
 
         log.info("Rest request to verify mail token: {}", token);
-        authService.verifyMail(token);
+        authService.approveUser(token);
         return ResponseEntity.ok(
                 Response.ok("User successfully approved!"));
     }

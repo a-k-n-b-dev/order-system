@@ -52,7 +52,7 @@ public class OrderService {
         customer.setRole(new Role(RoleEnum.CUSTOMER));
         customer = userRepository.save(customer);
         order.setUserId(customer.getId());
-        order.setStatus(OrderStatus.TAKEN);
+        order.setStatus(OrderStatus.RECEIVED);
         order = orderRepository.save(order);
         return orderMapper.toOrderDto(order);
     }
