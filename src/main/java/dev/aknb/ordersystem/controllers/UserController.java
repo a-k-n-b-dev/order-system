@@ -6,6 +6,7 @@ import dev.aknb.ordersystem.dtos.user.UserFilterDto;
 import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.dtos.user.UserDto;
 import dev.aknb.ordersystem.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Find all users", description = "User statuses: { APPROVED, PENDING, ALL }")
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER', 'DEV')")
     @GetMapping("/list")
