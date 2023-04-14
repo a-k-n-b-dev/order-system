@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.dtos;
+package dev.aknb.ordersystem.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

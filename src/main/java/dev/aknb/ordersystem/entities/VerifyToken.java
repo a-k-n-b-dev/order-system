@@ -39,8 +39,11 @@ public class VerifyToken {
     @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate = LocalDateTime.now(Clock.systemUTC());
 
+    @Column(name = "expiration_minute")
+    private Long expirationMinute = 20L;
+
     public Boolean isExpired() {
         Duration period = Duration.between(getLastModifiedDate(), LocalDateTime.now(Clock.systemUTC()));
-        return period.toMinutes() > 20;
+        return period.toMinutes() > expirationMinute;
     }
 }

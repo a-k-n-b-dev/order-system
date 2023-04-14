@@ -1,4 +1,4 @@
-package dev.aknb.ordersystem.dtos;
+package dev.aknb.ordersystem.dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
