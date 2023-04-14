@@ -20,7 +20,6 @@ public class CreateOrderDto {
     private String description;
     private String agreement;
     private String price;
-    private List<String> imagesToken;
 
     // Customer info
 
