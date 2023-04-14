@@ -13,6 +13,7 @@ import dev.aknb.ordersystem.dtos.auth.ChangePasswordDto;
 import dev.aknb.ordersystem.dtos.auth.LoginDto;
 import dev.aknb.ordersystem.dtos.auth.ResetPasswordDto;
 import dev.aknb.ordersystem.dtos.auth.SignupDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,6 +43,7 @@ public class AuthController {
                 Response.ok(authService.signup(signupDto)));
     }
 
+    @Operation(summary = "Verify mail")
     @GetMapping("/signup/verify-mail")
     public ResponseEntity<Response<String>> verifyMail(@RequestParam("token") String token) {
 
@@ -51,6 +53,7 @@ public class AuthController {
                 Response.ok("Successfully verified! Please wait till admin approves."));
     }
 
+    @Operation(summary = "Approve new user")
     @GetMapping("/approve")
     public ResponseEntity<Response<String>> approveUser(@RequestParam("token") String token) {
 
@@ -60,6 +63,7 @@ public class AuthController {
                 Response.ok("User successfully approved!"));
     }
 
+    @Operation(summary = "Resend verify mail", description = "Token -> Json Web Token")
     @GetMapping("/signup/verify-mail/resend/{token}")
     public ResponseEntity<Response<String>> resendLink(@PathVariable("token") String jwtToken) {
 
