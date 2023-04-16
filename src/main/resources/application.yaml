@@ -22,3 +22,7 @@ firebase:
     name: storage-c560f.appspot.com
   download:
     url: https://firebasestorage.googleapis.com/v0/b/${firebase.bucket.name}/o/%s?alt=media
+
+# VARIABLES
+admin:
+  mail: abdulazizkhan.k.n.b@gmail.com
