@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderFilter extends Filter {
+public class OrderFilterDto extends Filter {
 
     private OrderStatus status = OrderStatus.DELIVERED;
 }

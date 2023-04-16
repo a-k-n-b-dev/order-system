@@ -7,6 +7,7 @@ import dev.aknb.ordersystem.dtos.order.OrderDto;
 import dev.aknb.ordersystem.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,4 +28,6 @@ public interface OrderMapper {
                 .map(Image::getToken)
                 .collect(Collectors.toList());
     }
+
+    void update(@MappingTarget Order target, CreateOrderDto source);
 }

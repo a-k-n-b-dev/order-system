@@ -1,6 +1,7 @@
 package dev.aknb.ordersystem.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dev.aknb.ordersystem.models.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +15,5 @@ public class UserDto {
     private String email;
     private String phoneNumber;
     private String address;
-    private Boolean approved;
+    private UserStatus status;
 }

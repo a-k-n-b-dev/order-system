@@ -1,6 +1,7 @@
 package dev.aknb.ordersystem.entities;
 
 import dev.aknb.ordersystem.entities.base.BaseEntity;
+import dev.aknb.ordersystem.models.UserStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,11 +35,9 @@ public class User extends BaseEntity {
     @Column(name = "address", columnDefinition = "text")
     private String address;
 
-    @Column(name = "verified")
-    private Boolean verified = Boolean.FALSE;
-
-    @Column(name = "approved")
-    private Boolean approved = Boolean.FALSE;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private UserStatus status;
 
     @Column(name = "password_changed_date")
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());

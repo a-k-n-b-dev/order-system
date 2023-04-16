@@ -8,9 +8,6 @@ import lombok.Setter;
 @Setter
 public class SetPasswordDto {
 
-    @NotBlank(message = "TOKEN_NOT_BLANK")
-    private String token;
-
     @NotBlank(message = "NEW_PASSWORD_NOT_BLANK")
     private String newPassword;
 }

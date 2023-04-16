@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem.repositories.order;
 
 import dev.aknb.ordersystem.entities.Order;
-import dev.aknb.ordersystem.dtos.order.OrderFilter;
+import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
 import dev.aknb.ordersystem.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,7 +20,7 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<Order> findAllByFilter(OrderFilter orderFilter) {
+    public Page<Order> findAllByFilter(OrderFilterDto orderFilterDto) {
 
         CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Order> cQuery = cBuilder.createQuery(Order.class);
@@ -28,14 +28,14 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
         Join<Order, User> userJoin = orderRoot.join("user");
 
         cQuery.where(
-                getPredicate(orderFilter, cBuilder, orderRoot, userJoin)
+                getPredicate(orderFilterDto, cBuilder, orderRoot, userJoin)
         );
 
         cQuery.orderBy(cBuilder.desc(orderRoot.get("lastModifiedDate")));
 
         TypedQuery<Order> orderQuery = entityManager.createQuery(cQuery);
-        orderQuery.setFirstResult(orderFilter.getPageable().getPageNumber() * orderFilter.getPageable().getPageSize());
-        orderQuery.setMaxResults(orderFilter.getPageable().getPageSize());
+        orderQuery.setFirstResult(orderFilterDto.getPageable().getPageNumber() * orderFilterDto.getPageable().getPageSize());
+        orderQuery.setMaxResults(orderFilterDto.getPageable().getPageSize());
 
         List<Order> orderList = orderQuery.getResultList();
 
@@ -46,12 +46,12 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
         countCQuery.select(cBuilder.count(countOrderRoot));
 
         countCQuery.where(
-                getPredicate(orderFilter, cBuilder, countOrderRoot, countUserJoin)
+                getPredicate(orderFilterDto, cBuilder, countOrderRoot, countUserJoin)
         );
 
         Long count = entityManager.createQuery(countCQuery).getSingleResult();
 
-        return new PageImpl<>(orderList, orderFilter.getPageable(), count);
+        return new PageImpl<>(orderList, orderFilterDto.getPageable(), count);
     }
 
     /**
@@ -59,13 +59,13 @@ public class CustomOrderRepositoryImpl implements CustomOrderRepository {
      * Predicate orderNamePredicate = cBuilder.like(cBuilder.upper(orderRoot.get("name")), "%" + orderFilter.getSearchText().toUpperCase() + "%");
      * return cBuilder.and(orderNamePredicate);
      */
-    private static Predicate getPredicate(OrderFilter orderFilter, CriteriaBuilder cBuilder, Root<Order> orderRoot, Join<Order, User> userJoin) {
+    private static Predicate getPredicate(OrderFilterDto orderFilterDto, CriteriaBuilder cBuilder, Root<Order> orderRoot, Join<Order, User> userJoin) {
 
         return cBuilder.and(
-                cBuilder.equal(orderRoot.get("status"), orderFilter.getStatus()),
+                cBuilder.equal(orderRoot.get("status"), orderFilterDto.getStatus()),
                 cBuilder.or(
-                        cBuilder.like(cBuilder.upper(orderRoot.get("name")), "%" + orderFilter.getSearchText().toUpperCase() + "%"),
-                        cBuilder.like(cBuilder.upper(userJoin.get("fullName")), "%" + orderFilter.getSearchText().toUpperCase() + "%")
+                        cBuilder.like(cBuilder.upper(orderRoot.get("name")), "%" + orderFilterDto.getSearchText().toUpperCase() + "%"),
+                        cBuilder.like(cBuilder.upper(userJoin.get("fullName")), "%" + orderFilterDto.getSearchText().toUpperCase() + "%")
                 )
         );
     }

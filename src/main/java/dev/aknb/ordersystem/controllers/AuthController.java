@@ -1,5 +1,6 @@
 package dev.aknb.ordersystem.controllers;
 
+import dev.aknb.ordersystem.dtos.auth.*;
 import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.controllers.constants.ApiConstants;
@@ -8,11 +9,6 @@ import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.utils.SecurityContextUtils;
 import dev.aknb.ordersystem.dtos.user.UserDto;
 import dev.aknb.ordersystem.services.AuthService;
-import dev.aknb.ordersystem.dtos.auth.TokenDataDto;
-import dev.aknb.ordersystem.dtos.auth.ChangePasswordDto;
-import dev.aknb.ordersystem.dtos.auth.LoginDto;
-import dev.aknb.ordersystem.dtos.auth.ResetPasswordDto;
-import dev.aknb.ordersystem.dtos.auth.SignupDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -44,8 +40,8 @@ public class AuthController {
     }
 
     @Operation(summary = "Verify mail")
-    @GetMapping("/signup/verify-mail")
-    public ResponseEntity<Response<String>> verifyMail(@RequestParam("token") String token) {
+    @GetMapping("/signup/verify-mail/{token}")
+    public ResponseEntity<Response<String>> verifyMail(@PathVariable("token") String token) {
 
         log.info("Rest request to verify mail token: {}", token);
         authService.verifyMail(token);
@@ -54,8 +50,8 @@ public class AuthController {
     }
 
     @Operation(summary = "Approve new user")
-    @GetMapping("/approve")
-    public ResponseEntity<Response<String>> approveUser(@RequestParam("token") String token) {
+    @GetMapping("/approve/{token}")
+    public ResponseEntity<Response<String>> approveUser(@PathVariable("token") String token) {
 
         log.info("Rest request to verify mail token: {}", token);
         authService.approveUser(token);
@@ -114,12 +110,12 @@ public class AuthController {
     @SecurityRequirement(name = ProjectConfig.NAME)
     @ApiResponse(responseCode = "401", description = "A jwt token must be provided in the authentication header")
     @PatchMapping("/password/set")
-    public ResponseEntity<Response<String>> setPassword(@RequestParam String newPassword) {
+    public ResponseEntity<Response<String>> setPassword(@RequestBody SetPasswordDto setPasswordDto) {
 
         String email = SecurityContextUtils.getUserEmail().orElseThrow(() ->
                 RestException.restThrow(HttpStatus.BAD_REQUEST, MessageType.ERROR.name()));
         log.info("Rest request to set new password to user email: {}", email);
-        authService.setPassword(newPassword, email);
+        authService.setPassword(setPasswordDto.getNewPassword(), email);
         return ResponseEntity.ok(
                 Response.ok("Password successfully set!"));
     }

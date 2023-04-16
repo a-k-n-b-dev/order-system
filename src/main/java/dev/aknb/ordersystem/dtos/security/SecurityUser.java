@@ -1,5 +1,6 @@
 package dev.aknb.ordersystem.dtos.security;
 
+import dev.aknb.ordersystem.models.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,8 +26,7 @@ public class SecurityUser implements UserDetails {
 
     private String address;
 
-    private Boolean verified = Boolean.FALSE;
-    private Boolean approved = Boolean.FALSE;
+    private UserStatus status;
     private Instant passwordChangedDate = Instant.now(Clock.systemUTC());
 
     private SecurityRole role;
@@ -58,6 +58,6 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
 
-        return this.approved;
+        return this.status.equals(UserStatus.APPROVED);
     }
 }

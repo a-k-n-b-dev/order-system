@@ -1,19 +1,20 @@
 package dev.aknb.ordersystem.services;
 
-import dev.aknb.ordersystem.models.RestException;
-import dev.aknb.ordersystem.models.MessageType;
-import dev.aknb.ordersystem.entities.Role;
-import dev.aknb.ordersystem.models.RoleEnum;
-import dev.aknb.ordersystem.dtos.security.SecurityUser;
-import dev.aknb.ordersystem.entities.User;
-import dev.aknb.ordersystem.dtos.user.UserDto;
-import dev.aknb.ordersystem.mappers.UserMapper;
-import dev.aknb.ordersystem.repositories.UserRepository;
-import dev.aknb.ordersystem.dtos.auth.TokenDataDto;
 import dev.aknb.ordersystem.dtos.auth.ChangePasswordDto;
 import dev.aknb.ordersystem.dtos.auth.LoginDto;
 import dev.aknb.ordersystem.dtos.auth.SignupDto;
+import dev.aknb.ordersystem.dtos.auth.TokenDataDto;
+import dev.aknb.ordersystem.dtos.security.SecurityUser;
+import dev.aknb.ordersystem.dtos.user.UserDto;
+import dev.aknb.ordersystem.entities.Role;
+import dev.aknb.ordersystem.entities.User;
 import dev.aknb.ordersystem.entities.VerifyToken;
+import dev.aknb.ordersystem.mappers.UserMapper;
+import dev.aknb.ordersystem.models.MessageType;
+import dev.aknb.ordersystem.models.RestException;
+import dev.aknb.ordersystem.models.RoleEnum;
+import dev.aknb.ordersystem.models.UserStatus;
+import dev.aknb.ordersystem.repositories.user.UserRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,12 +53,12 @@ public class AuthService {
     @Transactional
     public String signup(SignupDto signupDto) {
 
-        Boolean exists = userRepository.existsByEmail(signupDto.getEmail());
+        Boolean exists = userRepository.existsByEmailAndStatus(signupDto.getEmail(), UserStatus.VERIFIED);
         if (exists) {
             throw RestException.restThrow("Email", signupDto.getEmail(), MessageType.EMAIL_EXISTS.name());
         }
 
-        exists = userRepository.existsByPhoneNumber(signupDto.getPhoneNumber());
+        exists = userRepository.existsByPhoneNumberAndStatus(signupDto.getPhoneNumber(), UserStatus.VERIFIED);
         if (exists) {
             throw RestException.restThrow("Phone number", signupDto.getPhoneNumber(), MessageType.PHONE_NUMBER_EXISTS.name());
         }
@@ -78,7 +79,7 @@ public class AuthService {
 
         VerifyToken verifyToken = verifyTokenService.getIfValid(token);
         User user = verifyToken.getUser();
-        user.setVerified(Boolean.TRUE);
+        user.setStatus(UserStatus.VERIFIED);
         userRepository.save(user);
         verifyTokenService.delete(verifyToken);
         mailService.sendApprove(user.getEmail(), verifyTokenService.createToken(user));
@@ -88,10 +89,10 @@ public class AuthService {
 
         VerifyToken verifyToken = verifyTokenService.getIfValid(token);
         User user = verifyToken.getUser();
-        if (!user.getVerified()) {
+        if (user.getStatus().equals(UserStatus.PENDING)) {
             throw RestException.restThrow(HttpStatus.BAD_REQUEST, MessageType.EMAIL_NOT_VERIFIED.name());
         }
-        user.setApproved(Boolean.TRUE);
+        user.setStatus(UserStatus.APPROVED);
         userRepository.save(user);
         verifyTokenService.delete(verifyToken);
         mailService.sendApproved(user.getEmail(), user.getFullName());
@@ -101,7 +102,7 @@ public class AuthService {
 
         String email = tokenService.extractSubject(jwtToken);
         User user = getOrElseThrow(email);
-        if (user.getVerified()) {
+        if (user.getStatus().equals(UserStatus.VERIFIED)) {
             throw RestException.restThrow(HttpStatus.BAD_REQUEST, MessageType.ALREADY_VERIFIED.name());
         }
         mailService.sendVerifyToken(

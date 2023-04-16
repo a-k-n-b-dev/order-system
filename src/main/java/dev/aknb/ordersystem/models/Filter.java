@@ -15,7 +15,7 @@ public class Filter {
     private String searchText = "";
     private int pageNumber = 0;
     @Min(value = 1, message = "INVALID_FILTER_SIZE")
-    private int pageSize = 16;
+    private int itemSize = 16;
 
     private Sort.Direction sort = Sort.Direction.DESC;
 
@@ -24,7 +24,7 @@ public class Filter {
 
         return PageRequest.of(
                 this.pageNumber,
-                this.pageSize,
+                this.itemSize,
                 Sort.by(sort, "lastModifiedDate")
         );
     }

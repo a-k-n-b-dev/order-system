@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +21,7 @@ public class CreateOrderDto {
     private String price;
 
     // Customer info
+    private Long userId;
 
     @NotBlank(message = "FULL_NAME_NOT_BLANK")
     @Size(min = 4, max = 100, message = "FULL_NAME_MIN4_MAX100")

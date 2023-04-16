@@ -3,10 +3,11 @@ package dev.aknb.ordersystem.controllers;
 import dev.aknb.ordersystem.services.OrderService;
 import dev.aknb.ordersystem.dtos.order.CreateOrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderDto;
-import dev.aknb.ordersystem.dtos.order.OrderFilter;
+import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
 import dev.aknb.ordersystem.controllers.constants.ApiConstants;
 import dev.aknb.ordersystem.config.ProjectConfig;
 import dev.aknb.ordersystem.models.Response;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -46,10 +47,21 @@ public class OrderController {
                 Response.ok(orderService.create(request)));
     }
 
+    @Operation(summary = "Find all orders as a page default", description = "Order statuses: { RECEIVED, STARTED, PAINTING, FINISHED, DELIVERED }")
     @GetMapping("/list")
-    public ResponseEntity<Response<Page<OrderDto>>> list(OrderFilter request) {
+    public ResponseEntity<Response<Page<OrderDto>>> list(OrderFilterDto request) {
 
         log.info("Rest request to list with filter: {}", request);
         return ResponseEntity.ok(Response.ok(orderService.ordersWithFilter(request)));
+    }
+
+    @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
+    @Operation(summary = "Update order values.")
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Response<OrderDto>> update(@PathVariable("id") Long orderId,
+                                              @Valid @RequestBody CreateOrderDto orderDto){
+
+        log.info("Rest request to update order id: {}", orderId);
+        return ResponseEntity.ok(Response.ok(orderService.update(orderId, orderDto)));
     }
 }
