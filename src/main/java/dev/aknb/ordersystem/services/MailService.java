@@ -6,6 +6,7 @@ import dev.aknb.ordersystem.services.notification.NotificationFactory;
 import dev.aknb.ordersystem.services.notification.NotificationType;
 import dev.aknb.ordersystem.config.ProjectConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
@@ -19,6 +20,9 @@ public class MailService {
     private final MessageResolverService messageResolverService;
     private final ProjectConfig projectConfig;
     private final Notification notification;
+
+    @Value("${admin.mail}")
+    private String adminMail;
 
 
     public MailService(SpringTemplateEngine templateEngine, MessageResolverService messageResolverService, ProjectConfig projectConfig, NotificationFactory notificationFactory) {
@@ -57,7 +61,7 @@ public class MailService {
         context.setVariable("subject", subject);
         context.setVariable("token", token);
         context.setVariable("email", email);
-        notification.sendNotification(email, templateEngine.process("approve", context), subject);
+        notification.sendNotification(adminMail, templateEngine.process("approve", context), subject);
     }
 
     @Async
