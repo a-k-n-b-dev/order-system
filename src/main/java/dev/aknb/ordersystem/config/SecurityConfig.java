@@ -46,7 +46,7 @@ public class SecurityConfig {
             ApiConstants.API_AUTH + "/login",
             ApiConstants.API_AUTH + "/approve/{token}",
             ApiConstants.API_AUTH + "/password/reset",
-            ApiConstants.API_AUTH + "/validate",
+            ApiConstants.API_AUTH + "/validate/{token}",
             ApiConstants.API_ORDER + "/{id}",
             ApiConstants.API_ORDER + "/list",
             ApiConstants.API_IMAGE + "/view/{token}",
