@@ -157,7 +157,7 @@ public class AuthService {
     public void setPassword(String newPassword, String email) {
 
         User user = getOrElseThrow(email);
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         user.setPasswordChangedDate(Instant.now(Clock.systemUTC()));
         userRepository.save(user);
     }

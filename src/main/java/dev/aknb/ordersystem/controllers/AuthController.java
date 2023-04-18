@@ -83,7 +83,7 @@ public class AuthController {
 
         String email = SecurityContextUtils.getUserEmail().orElseThrow(() ->
                 RestException.restThrow(HttpStatus.BAD_REQUEST, MessageType.ERROR.name()));
-        log.info("Reset password request for email: {}", email);
+        log.info("Rest request to change password email: {}", email);
         authService.changePassword(request, email);
         return ResponseEntity.ok(
                 Response.ok("Password successfully changed"));
@@ -92,7 +92,7 @@ public class AuthController {
     @PostMapping("/password/reset")
     public ResponseEntity<Response<String>> resetPassword(@RequestBody ResetPasswordDto request) {
 
-        log.info("Reset password request for email: {}", request.getEmail());
+        log.info("Rest request to reset password email: {}", request.getEmail());
         authService.resetPassword(request.getEmail());
         return ResponseEntity.ok(
                 Response.ok("We sent reset password link to your email. Please check your email"));
