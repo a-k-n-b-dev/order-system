@@ -3,7 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${subject ?: 'Approved!'}">Approved!</title>
-    <link rel="stylesheet" href="../static/css/approved.css" th:href="@{../static/css/approved.css}"/>
+<!--    <link rel="stylesheet" href="../static/css/approved.css" th:href="@{../static/css/approved.css}" type="text/css"/>-->
+
+    <style>
+
+        body {
+            background-color: #f4f4f4;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .span {
+            margin-top: 20px;
+            display: block;
+        }
+
+        .table-parent {
+            border: none;
+            border-collapse: collapse;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .table-child {
+            border: none;
+            padding: 0;
+            border-spacing: 0;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .td-parent {
+            background-color: #cae0ff;
+            padding: 0 10px;
+        }
+
+        .td-child {
+            padding: 40px 20px 40px 20px;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .subject {
+            display: block;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 14px 14px 0 0;
+            color: #111111;
+            font-family: 'Lato', Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            letter-spacing: 4px;
+            line-height: 48px;
+        }
+
+        .subject h1 {
+            font-size: 42px;
+            font-weight: 400;
+            margin: 30px 0 30px 0;
+        }
+
+        .subject img {
+            height: 110px;
+            width: 115px;
+            display: block;
+            border: 0;
+            margin: 30px 0 30px 0;
+        }
+
+        .content {
+            background-color: #f4f4f4;
+            padding: 0 10px;
+        }
+
+        .content-main {
+            background-color: #fff;
+            padding: 10px 30px 20px 30px;
+            color: #666;
+            font-family: 'Lato', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 25px;
+        }
+
+        .content-main p {
+            margin: 20px 0;
+            text-align: center
+        }
+
+        .content-main a {
+            background-color: #7F56D9;
+            font-size: 16px;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 18px;
+            border: 1px solid #7F56D9;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .content-sec {
+            background-color: #fff;
+            padding: 0 30px 0 30px;
+            color: #666666;
+            font-family: 'Lato', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 25px;
+        }
+
+        .content-sec p {
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
