@@ -98,8 +98,8 @@ public class AuthController {
                 Response.ok("We sent reset password link to your email. Please check your email"));
     }
 
-    @GetMapping("/validate")
-    public ResponseEntity<Response<String>> checkToken(@RequestParam("token") String token) {
+    @GetMapping("/validate/{token}")
+    public ResponseEntity<Response<String>> checkToken(@PathVariable("token") String token) {
 
         log.info("REST request to validate token");
         token = authService.validateToken(token);
