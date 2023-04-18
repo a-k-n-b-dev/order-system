@@ -1,12 +1,12 @@
 package dev.aknb.ordersystem.config;
 
+import dev.aknb.ordersystem.dtos.security.SecurityUser;
+import dev.aknb.ordersystem.models.MessageType;
+import dev.aknb.ordersystem.models.Response;
+import dev.aknb.ordersystem.services.MessageResolverService;
 import dev.aknb.ordersystem.services.TokenService;
 import dev.aknb.ordersystem.services.UserDetailsServiceImpl;
 import dev.aknb.ordersystem.utils.ObjectUtils;
-import dev.aknb.ordersystem.services.MessageResolverService;
-import dev.aknb.ordersystem.models.MessageType;
-import dev.aknb.ordersystem.models.Response;
-import dev.aknb.ordersystem.dtos.security.SecurityUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

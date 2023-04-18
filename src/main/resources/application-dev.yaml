@@ -5,6 +5,7 @@ rsa:
 server:
   port: 8081
   url: http://localhost:8081
+  login-url: ${server.url}/login
   approve-url: ${server.url}/api/v1/auth/approve
   verify-mail-url: ${server.url}/api/v1/auth/signup/verify-mail
   reset-pass-url: ${server.url}/api/v1/auth/validate

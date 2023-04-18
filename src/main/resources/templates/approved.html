@@ -1,15 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Successfully approved</title>
-    <link rel="stylesheet" th:href="@{../static/assets/css/approved.css}">
+    <title th:text="${subject ?: 'Approved!'}">Approved!</title>
+    <link href="../static/css/approved.css" rel="stylesheet" th:href="@{../css/approved.css}"/>
 </head>
+
 <body>
-    <h1>Dear [[${username}]],</h1>
-    <p>Congratulations! Your request has been successfully approved.</p>
-    <p>Thank you for using our system!</p>
-    <p>Sincerely,</p>
-    <p>The Admin Team</p>
+<table th:class="table-parent">
+    <!-- LOGO -->
+    <tr>
+        <td th:align="center" th:class="td-parent">
+            <table th:class="table-child">
+                <tr>
+                    <td th:align="center" th:class="td-child"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td th:align="center" th:class="td-parent">
+            <table th:class="table-child">
+                <tr>
+                    <td align="center" th:class="subject" valign="top">
+                        <h1 th:text="${subject ?: 'You are approved!'}">You are Approved!</h1>
+                        <img src="https://cdn-icons-png.flaticon.com/128/7626/7626666.png" alt="Congratulations image"/>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td align="center" th:class="content">
+            <table th:class="table-child">
+                <tr>
+                    <td align="center" th:class="content-main">
+                        <p>
+                            Assalamu alaikum
+                            <span th:text="${fullName ?: 'Abdulazizkhan Karimbayev'}">
+                                Abdulazizkhan Karimbayev
+                            </span>,
+                        </p>
+
+                        <p>Congratulations! Your request has been successfully approved. Click Log in button below:</p>
+                        <a target="_blank"
+                           th:href="${loginUrl ?: 'http://localhost:8081/login'}">
+                            Log in
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" bgcolor="#ffffff">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td align="center" th:class="content-sec">
+                                    <p>Thank you for using our system! Sincerely, Order System.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package dev.aknb.ordersystem.repositories.order;
 
-import dev.aknb.ordersystem.entities.Order;
 import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
+import dev.aknb.ordersystem.entities.Order;
 import dev.aknb.ordersystem.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

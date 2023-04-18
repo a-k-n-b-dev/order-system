@@ -1,9 +1,9 @@
 package dev.aknb.ordersystem.services;
 
-import dev.aknb.ordersystem.entities.VerifyToken;
-import dev.aknb.ordersystem.models.RestException;
-import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.entities.User;
+import dev.aknb.ordersystem.entities.VerifyToken;
+import dev.aknb.ordersystem.models.MessageType;
+import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.repositories.VerifyTokenRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +24,7 @@ public class VerifyTokenService {
         VerifyToken verifyToken = verifyTokenRepository.findByUserId(user.getId())
                 .orElse(new VerifyToken());
         if (verifyToken.isExpired()) {
+            this.delete(verifyToken);
             verifyToken = new VerifyToken();
         }
         verifyToken.setToken(UUID.randomUUID().toString());

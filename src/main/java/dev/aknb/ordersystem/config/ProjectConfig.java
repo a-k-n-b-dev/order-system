@@ -25,4 +25,6 @@ public class ProjectConfig {
     private String serverResetPassUrl;
     @Value("${server.approve-url}")
     private String serverApproveUrl;
+    @Value("${server.login-url}")
+    private String serverLoginUrl;
 }

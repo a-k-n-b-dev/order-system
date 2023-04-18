@@ -1,7 +1,5 @@
 package dev.aknb.ordersystem.services.notification;
 
-import org.springframework.scheduling.annotation.Async;
-
 import java.io.File;
 
 public interface Notification {

@@ -1,10 +1,10 @@
 package dev.aknb.ordersystem.controllers;
 
-import dev.aknb.ordersystem.controllers.constants.ApiConstants;
 import dev.aknb.ordersystem.config.ProjectConfig;
+import dev.aknb.ordersystem.controllers.constants.ApiConstants;
+import dev.aknb.ordersystem.dtos.user.UserDto;
 import dev.aknb.ordersystem.dtos.user.UserFilterDto;
 import dev.aknb.ordersystem.models.Response;
-import dev.aknb.ordersystem.dtos.user.UserDto;
 import dev.aknb.ordersystem.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -16,8 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @RestController

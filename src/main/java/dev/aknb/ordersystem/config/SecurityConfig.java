@@ -44,7 +44,7 @@ public class SecurityConfig {
     private final String[] WHITE_URLS = new String[]{
             ApiConstants.API_AUTH + "/signup/**",
             ApiConstants.API_AUTH + "/login",
-            ApiConstants.API_AUTH + "/approve",
+            ApiConstants.API_AUTH + "/approve/{token}",
             ApiConstants.API_AUTH + "/password/reset",
             ApiConstants.API_AUTH + "/validate",
             ApiConstants.API_ORDER + "/{id}",

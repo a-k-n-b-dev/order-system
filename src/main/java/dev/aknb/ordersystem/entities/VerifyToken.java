@@ -1,6 +1,5 @@
 package dev.aknb.ordersystem.entities;
 
-import dev.aknb.ordersystem.entities.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

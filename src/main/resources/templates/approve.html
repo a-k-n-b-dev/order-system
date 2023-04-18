@@ -6,7 +6,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body style="background-color: #f4f4f4; margin: 0 !important; padding: 0 !important;">
@@ -65,7 +65,7 @@
                                                 style="border-radius: 14px; box-shadow: 0px 7px 22px 0px rgba(0, 0, 0, .1);">
                                                 <a style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 14px; border: 1px solid #6db9ff; display: inline-block;"
                                                    target="_blank"
-                                                   th:href="${approveUrl == null ? 'https://example.com/approve?token=' + token : approveUrl + '?token=' + token}">
+                                                   th:href="${approveUrl ?: 'https://example.com/approve/blablabla'}">
                                                     Approve User
                                                 </a>
                                             </td>
@@ -85,8 +85,8 @@
                                 <td align="left" bgcolor="#ffffff"
                                     style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                                     <p style="margin: 0;"><a style="color: #6db9ff;" target="_blank"
-                                                             th:href="${approveUrl == null ? 'https://example.com/approve?token=' + token : approveUrl + '?token=' + token}"
-                                                             th:text="${approveUrl == null ? 'https://example.com/approve?token=' + token : approveUrl + '?token=' + token}"></a>
+                                                             th:href="${approveUrl ?: 'https://example.com/approve/blablabla'}"
+                                                             th:text="${approveUrl ?: 'https://example.com/approve/blablabla'}"></a>
                                     </p>
                                 </td>
                             </tr>
