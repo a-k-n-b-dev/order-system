@@ -1,0 +1,25 @@
+name: Order System - CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    name: Build and Deploy Order System
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Package and Build application
+        run: mvn clean -B package --file pom.xml
+
+      - name: Build Docker Image
+        run: |
+          docker build -t order-system-v1 -f config/Dockerfile .
+
+      - name: Run docker compose
+        run: |
+          docker compose -f config/docker-compose.yaml up -d

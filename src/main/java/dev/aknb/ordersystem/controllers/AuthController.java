@@ -53,7 +53,7 @@ public class AuthController {
     @GetMapping("/approve/{token}")
     public ResponseEntity<Response<String>> approveUser(@PathVariable("token") String token) {
 
-        log.info("Rest request to verify mail token: {}", token);
+        log.info("Rest request to approve mail token: {}", token);
         authService.approveUser(token);
         return ResponseEntity.ok(
                 Response.ok("User successfully approved!"));

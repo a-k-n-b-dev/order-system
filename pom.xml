@@ -125,6 +125,7 @@
             </plugin>
 
         </plugins>
+        <finalName>order-system-v1</finalName>
     </build>
 
 </project>
