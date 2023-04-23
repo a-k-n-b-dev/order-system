@@ -2,6 +2,7 @@ package dev.aknb.ordersystem.repositories.user;
 
 import dev.aknb.ordersystem.dtos.user.UserFilterDto;
 import dev.aknb.ordersystem.entities.User;
+import dev.aknb.ordersystem.models.UserStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -55,6 +56,14 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     }
 
     private static Predicate getPredicates(UserFilterDto userFilterDto, CriteriaBuilder cBuilder, Root<User> userRoot) {
+
+        if (userFilterDto.getStatus().equals(UserStatus.ALL))
+        return cBuilder.and(
+                cBuilder.or(
+                        cBuilder.like(cBuilder.lower(userRoot.get("fullName")), "%" + userFilterDto.getSearchText().toLowerCase() + "%"),
+                        cBuilder.like(cBuilder.lower(userRoot.get("phoneNumber")), "%" + userFilterDto.getSearchText().toLowerCase() + "%")
+                )
+        );
 
         return cBuilder.and(
                 cBuilder.equal(userRoot.get("status"), userFilterDto.getStatus()),
