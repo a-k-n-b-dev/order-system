@@ -30,5 +30,6 @@ public class CreateOrderDto {
     @Size(min = 13, max = 15, message = "PHONE_NUMBER_MIN13_MAX15")
     @ValidPhoneNumber(message = "INVALID_PHONE_NUMBER")
     private String phoneNumber;
+    @NotBlank(message = "ADDRESS_NOT_BLANK")
     private String address;
 }
