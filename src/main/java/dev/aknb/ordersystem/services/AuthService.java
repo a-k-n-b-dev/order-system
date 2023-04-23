@@ -53,12 +53,12 @@ public class AuthService {
     @Transactional
     public String signup(SignupDto signupDto) {
 
-        Boolean exists = userRepository.existsByEmailAndStatus(signupDto.getEmail(), UserStatus.VERIFIED);
+        Boolean exists = userRepository.existsByEmailAndStatus(signupDto.getEmail(), UserStatus.APPROVED);
         if (exists) {
             throw RestException.restThrow("Email", signupDto.getEmail(), MessageType.EMAIL_EXISTS.name());
         }
 
-        exists = userRepository.existsByPhoneNumberAndStatus(signupDto.getPhoneNumber(), UserStatus.VERIFIED);
+        exists = userRepository.existsByPhoneNumberAndStatus(signupDto.getPhoneNumber(), UserStatus.APPROVED);
         if (exists) {
             throw RestException.restThrow("Phone number", signupDto.getPhoneNumber(), MessageType.PHONE_NUMBER_EXISTS.name());
         }
