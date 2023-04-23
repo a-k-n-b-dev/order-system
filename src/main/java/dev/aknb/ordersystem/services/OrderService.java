@@ -3,6 +3,7 @@ package dev.aknb.ordersystem.services;
 import dev.aknb.ordersystem.dtos.order.CreateOrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
+import dev.aknb.ordersystem.dtos.order.UpdateOrderDto;
 import dev.aknb.ordersystem.entities.Order;
 import dev.aknb.ordersystem.entities.Role;
 import dev.aknb.ordersystem.entities.User;
@@ -64,7 +65,7 @@ public class OrderService {
                 .map(orderMapper::toOrderDto);
     }
 
-    public OrderDto update(Long orderId, CreateOrderDto orderDto) {
+    public OrderDto update(Long orderId, UpdateOrderDto orderDto) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() ->
                 RestException.restThrow(HttpStatus.NOT_FOUND, MessageType.ORDER_NOT_FOUND_BY_ID.name(), orderId.toString()));

@@ -5,6 +5,7 @@ import dev.aknb.ordersystem.controllers.constants.ApiConstants;
 import dev.aknb.ordersystem.dtos.order.CreateOrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
+import dev.aknb.ordersystem.dtos.order.UpdateOrderDto;
 import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,7 +60,7 @@ public class OrderController {
     @Operation(summary = "Update order values.")
     @PutMapping("/update/{id}")
     public ResponseEntity<Response<OrderDto>> update(@PathVariable("id") Long orderId,
-                                              @Valid @RequestBody CreateOrderDto orderDto){
+                                              @Valid @RequestBody UpdateOrderDto orderDto){
 
         log.info("Rest request to update order id: {}", orderId);
         return ResponseEntity.ok(Response.ok(orderService.update(orderId, orderDto)));

@@ -2,6 +2,7 @@ package dev.aknb.ordersystem.mappers;
 
 import dev.aknb.ordersystem.dtos.order.CreateOrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderDto;
+import dev.aknb.ordersystem.dtos.order.UpdateOrderDto;
 import dev.aknb.ordersystem.entities.Image;
 import dev.aknb.ordersystem.entities.Order;
 import dev.aknb.ordersystem.entities.User;
@@ -29,5 +30,5 @@ public interface OrderMapper {
                 .collect(Collectors.toList());
     }
 
-    void update(@MappingTarget Order target, CreateOrderDto source);
+    void update(@MappingTarget Order target, UpdateOrderDto source);
 }

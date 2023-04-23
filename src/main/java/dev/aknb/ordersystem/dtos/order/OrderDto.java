@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OrderDto extends CreateOrderDto{
+public class OrderDto extends UpdateOrderDto{
 
     private Long id;
 
