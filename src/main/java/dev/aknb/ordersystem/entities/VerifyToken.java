@@ -23,7 +23,7 @@ public class VerifyToken {
     @Column(name = "token")
     private String token;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
