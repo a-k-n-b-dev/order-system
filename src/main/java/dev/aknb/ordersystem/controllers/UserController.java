@@ -29,7 +29,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @Operation(summary = "Find all users", description = "User statuses: { APPROVED, PENDING, ALL }")
+    @Operation(summary = "Find all users", description = "User statuses: { PENDING, VERIFIED, APPROVED, ALL }")
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
     @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER', 'DEV')")
     @GetMapping("/list")
