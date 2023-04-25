@@ -5,6 +5,7 @@ import dev.aknb.ordersystem.controllers.constants.ApiConstants;
 import dev.aknb.ordersystem.dtos.order.CreateOrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
+import dev.aknb.ordersystem.dtos.order.OrderUpdateStatusDto;
 import dev.aknb.ordersystem.dtos.order.UpdateOrderDto;
 import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.services.OrderService;
@@ -64,6 +65,15 @@ public class OrderController {
 
         log.info("Rest request to update order id: {}", orderId);
         return ResponseEntity.ok(Response.ok(orderService.update(orderId, orderDto)));
+    }
+
+    @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
+    @Operation(summary = "Delete order by id")
+    @PatchMapping("/update/status/{id}")
+    public ResponseEntity<Response<OrderDto>> updateStatus(@PathVariable("id") Long orderId, @RequestBody OrderUpdateStatusDto statusDto) {
+        
+        log.info("Rest request to update status: {}", statusDto.getStatus().name());
+        return ResponseEntity.ok(Response.ok(orderService.updateStatus(orderId, statusDto)));
     }
 
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
