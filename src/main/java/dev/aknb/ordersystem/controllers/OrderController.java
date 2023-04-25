@@ -65,4 +65,14 @@ public class OrderController {
         log.info("Rest request to update order id: {}", orderId);
         return ResponseEntity.ok(Response.ok(orderService.update(orderId, orderDto)));
     }
+
+    @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
+    @Operation(summary = "Delete order by id")
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Response<String>> delete(@PathVariable("id") Long orderId) {
+
+        log.info("Rest request  to delete order by id: {}", orderId);
+        orderService.delete(orderId);
+        return ResponseEntity.ok(Response.ok("Ok order deleted!"));
+    }
 }

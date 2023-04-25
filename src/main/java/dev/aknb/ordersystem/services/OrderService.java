@@ -15,13 +15,11 @@ import dev.aknb.ordersystem.models.RoleEnum;
 import dev.aknb.ordersystem.repositories.order.CustomOrderRepository;
 import dev.aknb.ordersystem.repositories.order.OrderRepository;
 import dev.aknb.ordersystem.repositories.user.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
 @Service
 public class OrderService {
 
@@ -93,5 +91,12 @@ public class OrderService {
             customer = userRepository.save(customer);
         }
         return customer;
+    }
+
+    public void delete(Long orderId) {
+        
+        Order order = orderRepository.findById(orderId).orElseThrow( () -> 
+            RestException.restThrow(HttpStatus.NOT_FOUND, MessageType.ORDER_NOT_FOUND_BY_ID.name(), orderId.toString()));
+        orderRepository.delete(order);
     }
 }
