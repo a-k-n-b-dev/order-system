@@ -58,6 +58,7 @@ public class OrderController {
     }
 
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER', 'DEV')")
     @Operation(summary = "Update order values.")
     @PutMapping("/update/{id}")
     public ResponseEntity<Response<OrderDto>> update(@PathVariable("id") Long orderId,
@@ -68,6 +69,7 @@ public class OrderController {
     }
 
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER', 'DEV')")
     @Operation(summary = "Delete order by id")
     @PatchMapping("/update/status/{id}")
     public ResponseEntity<Response<OrderDto>> updateStatus(@PathVariable("id") Long orderId, @RequestBody OrderUpdateStatusDto statusDto) {
@@ -77,6 +79,7 @@ public class OrderController {
     }
 
     @SecurityRequirement(name = ProjectConfig.NAME, scopes = {"ADMIN", "OWNER", "DEV"})
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OWNER', 'DEV')")
     @Operation(summary = "Delete order by id")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable("id") Long orderId) {
