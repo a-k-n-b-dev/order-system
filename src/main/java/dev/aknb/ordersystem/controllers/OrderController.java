@@ -9,6 +9,7 @@ import dev.aknb.ordersystem.dtos.order.OrderUpdateStatusDto;
 import dev.aknb.ordersystem.dtos.order.UpdateOrderDto;
 import dev.aknb.ordersystem.models.Response;
 import dev.aknb.ordersystem.services.OrderService;
+import dev.aknb.ordersystem.utils.SecurityContextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,9 +45,10 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Response<OrderDto>> createOrder(@Valid @RequestBody CreateOrderDto request) {
 
-        log.info("Rest request to create order customer full name: {}", request.getFullName());
+        Long userId = SecurityContextUtils.getUserId().get();
+        log.info("Rest request to create order userId: {} customer full name: {}", userId, request.getFullName());
         return ResponseEntity.ok(
-                Response.ok(orderService.create(request)));
+                Response.ok(orderService.create(userId, request)));
     }
 
     @Operation(summary = "Find all orders as a page default", description = "Order statuses: { RECEIVED, STARTED, PAINTING, FINISHED, DELIVERED }")

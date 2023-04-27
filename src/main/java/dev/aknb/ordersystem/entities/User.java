@@ -11,6 +11,7 @@ import org.hibernate.annotations.Where;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,4 +46,7 @@ public class User extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "role_name", referencedColumnName = "name")
     private Role role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Order> orders;
 }

@@ -5,17 +5,14 @@ import dev.aknb.ordersystem.dtos.order.OrderDto;
 import dev.aknb.ordersystem.dtos.order.OrderFilterDto;
 import dev.aknb.ordersystem.dtos.order.OrderUpdateStatusDto;
 import dev.aknb.ordersystem.dtos.order.UpdateOrderDto;
+import dev.aknb.ordersystem.entities.Customer;
 import dev.aknb.ordersystem.entities.Order;
-import dev.aknb.ordersystem.entities.Role;
-import dev.aknb.ordersystem.entities.User;
 import dev.aknb.ordersystem.mappers.OrderMapper;
 import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.models.OrderStatus;
 import dev.aknb.ordersystem.models.RestException;
-import dev.aknb.ordersystem.models.RoleEnum;
 import dev.aknb.ordersystem.repositories.order.CustomOrderRepository;
 import dev.aknb.ordersystem.repositories.order.OrderRepository;
-import dev.aknb.ordersystem.repositories.user.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,14 +23,14 @@ public class OrderService {
 
     private final CustomOrderRepository customOrderRepository;
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
     private final OrderMapper orderMapper;
+    private final UserService userService;
 
-    public OrderService(CustomOrderRepository customOrderRepository, OrderRepository orderRepository, UserRepository userRepository, OrderMapper orderMapper) {
+    public OrderService(CustomOrderRepository customOrderRepository, OrderRepository orderRepository, OrderMapper orderMapper, UserService userService) {
         this.customOrderRepository = customOrderRepository;
         this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
         this.orderMapper = orderMapper;
+        this.userService = userService;
     }
 
     public OrderDto getOne(Long id) {
@@ -45,17 +42,16 @@ public class OrderService {
 
 
     @Transactional
-    public OrderDto create(CreateOrderDto createOrderDto) {
+    public OrderDto create(Long userId, CreateOrderDto createOrderDto) {
 
         Order order = orderMapper.toOrder(createOrderDto);
-
-        User customer = getIfExistOrCreate(createOrderDto);
-
-        order.setUserId(customer.getId());
+        Customer customer = userService.getCustomerIfExistOrCreate(createOrderDto);
+        order.setUserId(userId);
+        order.setCustomerId(customer.getId());
         order.setStatus(OrderStatus.RECEIVED);
         order = orderRepository.save(order);
-        order.setUser(customer);
-        return orderMapper.toOrderDto(order);
+        return orderMapper.toOrderDto(
+            getIfExistOrThrows(order.getId()));
     }
 
     public Page<OrderDto> ordersWithFilter(OrderFilterDto request) {
@@ -70,28 +66,15 @@ public class OrderService {
                 RestException.restThrow(HttpStatus.NOT_FOUND, MessageType.ORDER_NOT_FOUND_BY_ID.name(), orderId.toString()));
 
         orderMapper.update(order, orderDto);
-
-        User customer = getIfExistOrCreate(orderDto);
-
-        order.setUserId(customer.getId());
         order = orderRepository.save(order);
-        return orderMapper.toOrderDto(order);
+        return orderMapper.toOrderDto(
+                getIfExistOrThrows(orderId));
     }
 
-    private User getIfExistOrCreate(CreateOrderDto request) {
-        User customer = new User();
-        if (request.getUserId() != null) {
+    private Order getIfExistOrThrows(Long orderId) {
 
-            customer = userRepository.findById(request.getUserId()).orElseThrow(() ->
-                    RestException.restThrow(HttpStatus.NOT_FOUND, MessageType.USER_NOT_FOUND.name()));
-        } else {
-            customer.setFullName(request.getFullName());
-            customer.setAddress(request.getAddress());
-            customer.setPhoneNumber(request.getPhoneNumber());
-            customer.setRole(new Role(RoleEnum.CUSTOMER));
-            customer = userRepository.save(customer);
-        }
-        return customer;
+        return orderRepository.findById(orderId).orElseThrow( () -> 
+            RestException.restThrow( HttpStatus.NOT_FOUND,  MessageType.ORDER_NOT_FOUND_BY_ID.name(), orderId.toString()));
     }
 
     public void delete(Long orderId) {

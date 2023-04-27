@@ -10,6 +10,6 @@ import java.util.List;
 public class OrderDto extends UpdateOrderDto{
 
     private Long id;
-
+    private Long UserId;
     private List<String> imagesToken;
 }

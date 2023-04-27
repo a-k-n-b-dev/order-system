@@ -16,9 +16,10 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
 
-    @Mapping(target = "fullName", source = "user.fullName")
-    @Mapping(target = "phoneNumber", source = "user.phoneNumber")
-    @Mapping(target = "address", source = "user.address")
+    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "fullName", source = "customer.fullName")
+    @Mapping(target = "phoneNumber", source = "customer.phoneNumber")
+    @Mapping(target = "address", source = "customer.address")
     @Mapping(target = "imagesToken", expression = "java(getImagesToken(source.getImages()))")
     OrderDto toOrderDto(Order source);
     Order toOrder(CreateOrderDto source);

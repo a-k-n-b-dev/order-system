@@ -43,6 +43,9 @@ public class Order extends BaseEntity {
     @Column(name = "agreement")
     private String agreement;
 
+    @Column(name = "materials")
+    private String materials;
+
     @Column(name = "price")
     private String price;
 
@@ -50,12 +53,19 @@ public class Order extends BaseEntity {
     @Column(name = "status")
     private OrderStatus status;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", updatable = false, insertable = false)
     private User user;
 
     @Column(name = "user_id")
     private Long userId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", updatable = false, insertable = false)
+    private Customer customer;
+
+    @Column(name = "customer_id")
+    private Long customerId;
 
     @OneToMany(mappedBy = "order")
     private List<Image> images = new ArrayList<>();

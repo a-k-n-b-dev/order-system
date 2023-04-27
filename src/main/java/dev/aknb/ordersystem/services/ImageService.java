@@ -8,17 +8,14 @@ import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.models.RestException;
 import dev.aknb.ordersystem.repositories.ImageRepository;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class ImageService {
 

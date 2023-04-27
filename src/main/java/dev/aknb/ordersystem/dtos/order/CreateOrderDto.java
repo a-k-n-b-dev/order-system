@@ -19,9 +19,10 @@ public class CreateOrderDto {
     private String description;
     private String agreement;
     private String price;
+    private String materials;
 
     // Customer info
-    private Long userId;
+    private Long customerId;
 
     @NotBlank(message = "FULL_NAME_NOT_BLANK")
     @Size(min = 4, max = 100, message = "FULL_NAME_MIN4_MAX100")

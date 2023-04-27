@@ -3,7 +3,7 @@ rsa:
   public-key: classpath:certs/public.pem
   private-key: classpath:certs/private.pem
 server:
-  port: 8080
+  port: 8081
   url: https://order-system.up.railway.app
   login-url: ${server.url}/login
   approve-url: ${server.url}/api/v1/auth/approve

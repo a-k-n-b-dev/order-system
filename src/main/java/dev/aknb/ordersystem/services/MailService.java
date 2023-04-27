@@ -5,14 +5,12 @@ import dev.aknb.ordersystem.models.MessageType;
 import dev.aknb.ordersystem.services.notification.Notification;
 import dev.aknb.ordersystem.services.notification.NotificationFactory;
 import dev.aknb.ordersystem.services.notification.NotificationType;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-@Slf4j
 @Service
 public class MailService {
 
